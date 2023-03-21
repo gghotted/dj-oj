@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import password_validation
+from django.contrib.auth import authenticate, password_validation
 from django.forms import ValidationError
 
 from users.models import User
@@ -46,3 +46,24 @@ class UserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         self.instance.set_password(self.cleaned_data['password1'])
         return super().save(commit)
+
+
+class LoginForm(forms.Form):
+
+    email = forms.EmailField(
+        label='이메일',
+    )
+    password = forms.CharField(
+        label='비밀번호',
+        widget=forms.PasswordInput(),
+    )
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+
+        self.user = authenticate(None, email=email, password=password)
+        if not self.user:
+            raise ValidationError('일치하는 유저 정보가 없습니다')
+        
+        return self.cleaned_data

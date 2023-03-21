@@ -1,0 +1,21 @@
+{% extends 'core/base_site.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} 로그인 {% endblock %}
+
+{% block wrapped_content %}
+<div class="container" style="max-width: 500px;">
+    <div class="row">
+        <p class="fs-2">로그인</p>
+    </div>
+    <div class="row">
+        <form method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <div class="d-grid d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">로그인</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -16,12 +16,12 @@
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">로그아웃</a></li>
+                <li><a class="dropdown-item" href="{% url 'users:logout' %}">로그아웃</a></li>
             </ul>
         </div>
         {% else %}
         <div class="nav-item d-flex">
-            <a class="nav-link" href="#">로그인</a>
+            <a class="nav-link" href="{% url 'users:login' %}">로그인</a>
             <a class="nav-link" href="{% url 'users:signup' %}">회원가입</a>
         </div>
         {% endif %}
