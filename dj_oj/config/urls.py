@@ -26,4 +26,5 @@ urlpatterns = [
 
 urlpatterns += [
     path('private-media/', include(private_storage.urls)),
+    path('tinymce/', include('tinymce.urls')),
 ]
