@@ -1,0 +1,43 @@
+{% extends 'core/base_fullscreen.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'core/dark_scrollbar.css' %}">
+<style>
+    .CodeMirror {
+        height: 100% !important;
+    }
+</style>
+{% endblock %}
+
+{% block media %}
+<!-- for codemirror -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.css">
+<link rel="stylesheet" href="https://codemirror.net/5/theme/base16-dark.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.js"></script>
+<script src="https://codemirror.net/5/mode/python/python.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'submissions/editor.js' %}"></script>
+
+<!-- for problem`s description -->
+<script src="{% static 'tinymce/tinymce.min.js' %}"></script>
+<script src="{% static 'problems/description.js' %}"></script>
+
+<!-- for submission -->
+<script src="{% static 'submissions/submission.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+{% include 'core/navigation_header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="flex-fill d-flex bg-secondary">
+    {% include 'problems/description.html' %}
+    {% include 'submissions/editor.html' with editable_files=form.editable_files %}
+</div>
+{% endblock %}
+
+{% block footer %}
+    {% include 'submissions/footer.html' %}
+{% endblock %}
