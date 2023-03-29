@@ -13,7 +13,7 @@ from submissions.forms import SubmissionCreateForm
 class SubmissionCreateView(
     CreateView
 ):
-    template_name = 'submissions/detail.html'
+    template_name = 'submissions/create/create.html'
     form_class = SubmissionCreateForm
 
     def get_form_kwargs(self):
