@@ -1,0 +1,10 @@
+<div class="bg-dark p-1 ">
+    <div class="container">
+        <a href="{% url 'home' %}" class="me-3 text-light text-decoration-none">DJ-OJ</a>
+
+        {% for link in navigation %}
+        <p class="me-3 text-secondary d-inline">></p>
+        <a href="{{link.1}}" class="me-3 text-light text-decoration-none">{{link.0}}</a>
+        {% endfor %}
+    </div>
+</div>

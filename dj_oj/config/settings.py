@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'core',
     'users',
     'problems',
+    'submissions',
 ]
 
 MIDDLEWARE = [
@@ -145,6 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
@@ -153,7 +155,9 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 TINYMCE_DEFAULT_CONFIG = {
-    "theme": "silver",
+    # "theme": "silver",
+    "skin": "oxide-dark",
+    "content_css": "dark",
     "height": 500,
     "menubar": False,
     "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,"
