@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 mode: "python",
                 lineNumbers: true,
                 indentUnit: 4,
-                indentWithTabs: true,
+                // indentWithTabs: true,
                 readOnly: editorEle.hasAttribute('readonly'),
             });
         }
