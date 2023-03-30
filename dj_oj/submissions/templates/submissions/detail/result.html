@@ -1,0 +1,21 @@
+<div
+    id="id-result"
+    class="d-flex flex-column justify-content-center"
+    data-api-url="{% url 'submissions_api:detail' submission.id %}"
+    style="width: 45%; background-color: #2f3742;"
+>
+    <div id="id-status" class="text-center bg-secondary">
+        <div id="id-status-spinner" class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        </div>
+        <div class="h4 text-light">
+            <span>테스트 </span>
+            <span id="id-status-description">
+                {{submission.get_test_status_display}}
+            </span>
+        </div>
+    </div>
+
+    <div id="id-result-detail">
+
+    </div>
+</div>

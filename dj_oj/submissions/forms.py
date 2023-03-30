@@ -38,7 +38,7 @@ class SubmissionCreateForm(forms.ModelForm):
             request data가 있다면 이 값으로,
             혹은 file의 기본 contents 값으로 한다.
             '''
-            file.contents_for_form = contents.get(file.name, file.contents)
+            file.contents_for_editor = contents.get(file.name, file.contents)
 
         super().__init__(*args, **kwargs)
 

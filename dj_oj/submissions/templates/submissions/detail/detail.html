@@ -19,12 +19,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static 'submissions/editor.js' %}"></script>
 
-<!-- for problem`s description -->
-<script src="{% static 'tinymce/tinymce.min.js' %}"></script>
-<script src="{% static 'problems/description.js' %}"></script>
-
-<!-- for submission -->
-<script src="{% static 'submissions/submission.js' %}"></script>
+<!-- for result render -->
+<script src="{% static 'submissions/result.js' %}"></script>
 {% endblock %}
 
 {% block header %}
@@ -33,11 +29,7 @@
 
 {% block content %}
 <div class="flex-fill d-flex bg-secondary">
-    {% include 'problems/description.html' %}
-    {% include 'submissions/create/editor.html' with files=form.editable_files %}
+    {% include 'submissions/detail/result.html' %}
+    {% include 'submissions/create/editor.html' %}
 </div>
-{% endblock %}
-
-{% block footer %}
-    {% include 'submissions/create/footer.html' %}
 {% endblock %}

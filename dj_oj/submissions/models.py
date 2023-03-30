@@ -16,6 +16,20 @@ class Submission(BaseModel):
         related_name='submissions',
         verbose_name='문제',
     )
+    is_public = models.BooleanField(
+        verbose_name='공개',
+        default=False,
+    )
+    test_status = models.CharField(
+        verbose_name='상태',
+        max_length=32,
+        choices=[
+            ('pending', '대기중'),
+            ('in_progress', '진행중'),
+            ('completed', '완료'),
+        ],
+        default='pending',
+    )
 
 
 class SubmissionFile(File):

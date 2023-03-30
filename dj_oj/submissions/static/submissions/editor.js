@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 lineNumbers: true,
                 indentUnit: 4,
                 indentWithTabs: true,
+                readOnly: editorEle.hasAttribute('readonly'),
             });
         }
     }

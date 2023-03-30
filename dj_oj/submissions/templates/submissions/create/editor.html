@@ -1,7 +1,7 @@
 <div class="bg-light flex-fill d-flex flex-column">
 
     <ul class="nav nav-pills border-bottom border-secondary" role="tablist" style="background-color: #151515;">
-        {% for file in editable_files %}
+        {% for file in files %}
         <li class="nav-item " role="presentation">
             <button class="nav-link {% if forloop.counter == 1 %}active{% endif %}" id="id_file{{file.id}}"
                 data-bs-toggle="tab" data-bs-target="#id_contents{{file.id}}" type="button" role="tab"
@@ -19,10 +19,14 @@
     </form>
 
     <div class="tab-content flex-fill bg-dark" style="height: 200px;">
-            {% for file in editable_files %}
+            {% for file in files %}
             <div class="tab-pane h-100 {% if forloop.counter == 1 %}show active{% endif %}" id="id_contents{{file.id}}"
                 role="tabpanel" aria-labelledby="id_file{{file.id}}">
-                <textarea class="visually-hidden file-contents" data-file-name="{{file.name}}">{{file.contents_for_form}}</textarea>
+                <textarea 
+                    class="visually-hidden file-contents"
+                    data-file-name="{{file.name}}"
+                    {% if editor_readonly %} readonly {% endif %}
+                >{{file.contents_for_editor}}</textarea>
             </div>
         {% endfor %}
     </div>
