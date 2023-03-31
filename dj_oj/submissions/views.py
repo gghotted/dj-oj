@@ -8,6 +8,7 @@ from django.utils.formats import localize
 from django.utils.timezone import localtime
 from django.views.generic import CreateView, DetailView
 from problems.models import Problem
+
 from submissions.forms import SubmissionCreateForm
 from submissions.models import Submission
 
@@ -47,7 +48,7 @@ class SubmissionCreateView(
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse('problems:create_submission', args=[self.object.problem.id])
+        return reverse('submissions:detail', args=[self.object.id])
 
 
 class SubmissionDetailView(

@@ -26,6 +26,16 @@ document.addEventListener("DOMContentLoaded", function () {
             item.click();
         })
     })
+
+    if ($('#id-stderr').length == 1) {
+        editors['id-stderr'] = CodeMirror.fromTextArea($('#id-stderr')[0], {
+            theme: "base16-dark",
+            mode: null,
+            lineNumbers: true,
+            indentUnit: 4,
+            readOnly: true,
+        });
+    }
 });
 
 
@@ -37,4 +47,22 @@ function getEditorData() {
         data[fileName] = contents;
     }
     return data;
+}
+
+
+function setEditorValue(fromId, toId, mode='sql', readonly=true) {
+    var editor = null;
+
+    if (toId in editors) editor = editors[toId]
+    else {
+        editor = CodeMirror.fromTextArea($('#' + toId)[0], {
+            theme: "base16-dark",
+            mode: mode,
+            lineNumbers: true,
+            indentUnit: 4,
+            readOnly: readonly,
+        });
+        editors[toId] = editor
+    }
+    editor.setValue($('#' + fromId).val());
 }
