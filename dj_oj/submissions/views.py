@@ -118,4 +118,8 @@ class SubmissionDetailView(
         for file in ctx['files']:
             file.contents_for_editor = file.contents
 
+        ctx['submissions'] = self.request.user.submissions.filter(
+            problem=self.object.problem.id
+        )
+        
         return ctx

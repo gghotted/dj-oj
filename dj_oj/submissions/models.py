@@ -31,6 +31,18 @@ class Submission(BaseModel):
         default='pending',
     )
 
+    @property
+    def get_test_status_detail_display(self):
+        if self.test_status != 'completed':
+            return self.get_test_status_display()
+        if not self.judge.test_total_count:
+            return self.judge.get_results_status_display()
+        counts = '(%d/%d)' % (
+            self.judge.test_passed_count,
+            self.judge.test_total_count,
+        )
+        return self.judge.get_results_status_display() + counts
+
 
 class SubmissionFile(File):
     submission = models.ForeignKey(

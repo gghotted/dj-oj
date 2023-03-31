@@ -5,7 +5,14 @@
         {% endif %}
     </div>
     <div>
-        <a class="btn btn-secondary mx-2" href="#">제출 기록</a>
+        {% include 'submissions/detail/history.html' with submissions=submissions %}
+        <a
+            class="btn btn-secondary mx-2"
+            data-bs-toggle="modal"
+            data-bs-target="#id-history-modalview"
+        >
+            제출 기록
+        </a>
         <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}?initial={{submission.id}}">이어서 다시 풀기</a>
         <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}">처음부터 다시 풀기</a>
     </div>
