@@ -1,0 +1,12 @@
+<div class="bg-dark px-3 py-2 d-flex justify-content-between border-top border-secondary">
+    <div>
+        {% if can_read_another_solution %}
+        <a class="btn btn-secondary mx-2" href="#">다른 사람의 풀이</a>
+        {% endif %}
+    </div>
+    <div>
+        <a class="btn btn-secondary mx-2" href="#">제출 기록</a>
+        <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}?initial={{submission.id}}">이어서 다시 풀기</a>
+        <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}">처음부터 다시 풀기</a>
+    </div>
+</div>
