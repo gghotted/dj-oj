@@ -67,7 +67,9 @@ class SubmissionCreateView(
             (form.problem.title, self.request.path),
         ]
         ctx['can_read_another_solution'] = True # 수정해야함
-        ctx['submissions'] = True # 수정해야함
+        ctx['submissions'] = self.request.user.submissions.filter(
+            problem=form.problem.id
+        )
         return ctx
 
     def form_invalid(self, form):
