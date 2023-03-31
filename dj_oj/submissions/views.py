@@ -113,6 +113,9 @@ class SubmissionDetailView(
         ]
         ctx['editor_readonly'] = True
         ctx['files'] = self.object.files.all()
+        ctx['can_view_problem'] = self.request.user.has_perm(
+            'problems.view_problem', ctx['submission'].problem
+        )
         for file in ctx['files']:
             file.contents_for_editor = file.contents
 
@@ -125,9 +128,6 @@ class SubmissionDetailView(
             )
             ctx['can_delete_submission'] = self.request.user.has_perm(
                 'submissions.delete_submission', ctx['submission']
-            )
-            ctx['can_add_submission'] = self.request.user.has_perm(
-                'problems.add_submission', ctx['submission'].problem
             )
             ctx['can_read_another_solution'] = True # 수정해야함
         return ctx

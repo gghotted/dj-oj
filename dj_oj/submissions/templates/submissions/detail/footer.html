@@ -14,7 +14,7 @@
                 제출 기록
             </a>
         {% endif %}
-        {% if can_add_submission %}
+        {% if can_view_problem %}
             <a class="btn btn-primary mx-2"
                 href="{% url 'problems:create_submission' submission.problem.id %}?initial={{submission.id}}">이어서 다시 풀기</a>
             <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}">처음부터 다시
