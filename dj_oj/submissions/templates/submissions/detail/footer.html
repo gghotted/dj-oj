@@ -1,19 +1,24 @@
 <div class="bg-dark px-3 py-2 d-flex justify-content-between border-top border-secondary">
     <div>
+        {% if can_delete_submission %}
+        <a class="btn btn-danger mx-2" href="#">삭제</a>
+        {% endif %}
         {% if can_read_another_solution %}
         <a class="btn btn-secondary mx-2" href="#">다른 사람의 풀이</a>
         {% endif %}
     </div>
     <div>
-        {% include 'submissions/detail/history.html' with submissions=submissions %}
-        <a
-            class="btn btn-secondary mx-2"
-            data-bs-toggle="modal"
-            data-bs-target="#id-history-modalview"
-        >
-            제출 기록
-        </a>
-        <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}?initial={{submission.id}}">이어서 다시 풀기</a>
-        <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}">처음부터 다시 풀기</a>
+        {% if submissions %}
+            {% include 'submissions/detail/history.html' with submissions=submissions %}
+            <a class="btn btn-secondary mx-2" data-bs-toggle="modal" data-bs-target="#id-history-modalview">
+                제출 기록
+            </a>
+        {% endif %}
+        {% if can_add_submission %}
+            <a class="btn btn-primary mx-2"
+                href="{% url 'problems:create_submission' submission.problem.id %}?initial={{submission.id}}">이어서 다시 풀기</a>
+            <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}">처음부터 다시
+                풀기</a>
+        {% endif %}
     </div>
 </div>

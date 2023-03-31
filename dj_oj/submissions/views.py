@@ -25,9 +25,7 @@ class SubmissionCreateView(
     form_class = SubmissionCreateForm
     pk_url_kwarg = 'problem_id'
 
-    permission_required = 'submissions.view_submission'
     object_level_permissions = True
-    raise_exception = True
 
     @cache
     def get_object(self, queryset=None):
@@ -66,10 +64,11 @@ class SubmissionCreateView(
             ('문제 목록', '#'),
             (form.problem.title, self.request.path),
         ]
-        ctx['can_read_another_solution'] = True # 수정해야함
-        ctx['submissions'] = self.request.user.submissions.filter(
-            problem=form.problem.id
-        )
+        if self.request.user.is_authenticated:
+            ctx['can_read_another_solution'] = True # 수정해야함
+            ctx['submissions'] = self.request.user.submissions.filter(
+                problem=form.problem.id
+            )
         return ctx
 
     def form_invalid(self, form):
@@ -85,7 +84,6 @@ class SubmissionCreateView(
 
 
 class SubmissionDetailView(
-    LoginRequiredMixin,
     PermissionRequiredMixin,
     DetailView
 ):
@@ -95,8 +93,6 @@ class SubmissionDetailView(
     
     permission_required = 'submissions.view_submission'
     object_level_permissions = True
-    raise_exception = True
-    redirect_unauthenticated_users = True
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -120,8 +116,18 @@ class SubmissionDetailView(
         for file in ctx['files']:
             file.contents_for_editor = file.contents
 
-        ctx['submissions'] = self.request.user.submissions.filter(
-            problem=self.object.problem.id
-        )
-        
+        if self.request.user.is_authenticated:
+            ctx['submissions'] = self.request.user.submissions.filter(
+                problem=self.object.problem.id
+            )
+            ctx['can_change_submission'] = self.request.user.has_perm(
+                'submissions.change_submission', ctx['submission']
+            )
+            ctx['can_delete_submission'] = self.request.user.has_perm(
+                'submissions.delete_submission', ctx['submission']
+            )
+            ctx['can_add_submission'] = self.request.user.has_perm(
+                'problems.add_submission', ctx['submission'].problem
+            )
+            ctx['can_read_another_solution'] = True # 수정해야함
         return ctx

@@ -27,10 +27,31 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- for request api -->
+<script src="{% static 'core/request_api.js' %}"></script>
 {% endblock %}
 
 {% block header %}
-{% include 'core/navigation_header.html' %}
+<div class="bg-dark py-1 px-5 d-flex align-items-center justify-content-between">
+    {% include 'core/navigation_header.html' %}
+
+    {% if can_change_submission %}
+    <div class="form-check form-switch">
+        <input
+            class="form-check-input"
+            type="checkbox"
+            {% if submission.is_public %}checked{% endif %}
+            style="cursor: pointer;"
+            role="requestAPI"
+            data-url="{% url 'submissions_api:is_public_toggle' submission.id %}"
+            data-method="post"
+        >
+        <label class="form-check-label text-light" >공개</label>
+    </div>
+    {% endif %}
+</div>
+
 {% endblock %}
 
 {% block content %}

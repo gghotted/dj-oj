@@ -14,5 +14,5 @@ def is_owner(user, subm):
 
 
 rules.add_perm('submissions.view_submission', pred_divide(rules.always_true, is_public | is_owner))
-rules.add_perm('submissions.change_submission', pred_divide(rules.always_false, rules.always_false))
+rules.add_perm('submissions.change_submission', pred_divide(rules.always_true, is_owner))
 rules.add_perm('submissions.delete_submission', pred_divide(rules.always_true, is_owner))
