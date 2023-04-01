@@ -65,7 +65,10 @@ class SubmissionCreateView(
             (form.problem.title, self.request.path),
         ]
         if self.request.user.is_authenticated:
-            ctx['can_read_another_solution'] = True # 수정해야함
+            ctx['can_read_another_solution'] = (
+                form.problem.passed_users
+                .filter(id=self.request.user.id).exists()
+            )
             ctx['submissions'] = self.request.user.submissions.filter(
                 problem=form.problem.id
             )
@@ -129,5 +132,8 @@ class SubmissionDetailView(
             ctx['can_delete_submission'] = self.request.user.has_perm(
                 'submissions.delete_submission', ctx['submission']
             )
-            ctx['can_read_another_solution'] = True # 수정해야함
+            ctx['can_read_another_solution'] = (
+                ctx['submission'].problem.passed_users
+                .filter(id=self.request.user.id).exists()
+            )
         return ctx

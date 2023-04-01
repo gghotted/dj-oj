@@ -54,6 +54,7 @@ def _run_judge(judge, run_func, input_files, volume_path):
         judge.test_total_count = len(result)
         if judge.test_total_count == judge.test_passed_count:
             judge.results_status = 'success'
+            judge.submission.problem.passed_users.add(judge.submission.created_by)
         else:
             judge.results_status = 'fail'
 
