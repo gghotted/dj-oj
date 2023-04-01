@@ -19,7 +19,7 @@
         {% if can_submit %}
             <a class="btn btn-primary mx-2" onclick="submission('id-editor-form', getEditorData());">제출</a>
         {% else %}
-            <a class="btn btn-primary mx-2" href="{% url 'users:login' %}?next={{request.path}}">로그인</a>
+            <a class="btn btn-primary mx-2" href="{% url 'users:login' %}?next={{request.path}}?{{request.GET.urlencode}}">로그인</a>
         {% endif %}
     </div>
 </div>
