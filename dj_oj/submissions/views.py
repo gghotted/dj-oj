@@ -1,6 +1,7 @@
 from functools import cache
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from core.contexts import navigation
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -58,20 +59,26 @@ class SubmissionCreateView(
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        form = ctx['form']
+
+        user = self.request.user
+        problem = ctx['form'].problem
+        ctx['problem'] = problem
         
-        ctx['navigation'] = [
-            ('문제 목록', '#'),
-            (form.problem.title, self.request.path),
-        ]
-        if self.request.user.is_authenticated:
+        if user.is_authenticated:
             ctx['can_read_another_solution'] = (
-                form.problem.passed_users
-                .filter(id=self.request.user.id).exists()
+                problem.passed_users
+                .filter(id=user.id).exists()
             )
-            ctx['submissions'] = self.request.user.submissions.filter(
-                problem=form.problem.id
+            ctx['submissions'] = user.submissions.filter(
+                problem=problem.id
             )
+            ctx['is_passed_user'] = (
+                problem.passed_users
+                .filter(id=user.id).exists()
+            )
+        
+        ctx['navigation'] = navigation(ctx)
+
         return ctx
 
     def form_invalid(self, form):
@@ -100,40 +107,34 @@ class SubmissionDetailView(
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         
-        ctx['navigation'] = [
-            ('문제 목록', '#'),
-            (
-                self.object.problem.title,
-                reverse(
-                    'problems:create_submission',
-                    args=[self.object.problem.id]
-                )
-            ),
-            (
-                '제출 결과(%s)' % localize(localtime(self.object.created_at)),
-                self.request.path
-            ),
-        ]
+        user = self.request.user
+        submission = ctx['submission']
+        problem = submission.problem
+        ctx['problem'] = problem
         ctx['editor_readonly'] = True
-        ctx['files'] = self.object.files.all()
-        ctx['can_view_problem'] = self.request.user.has_perm(
-            'problems.view_problem', ctx['submission'].problem
+        ctx['files'] = submission.files.all()
+        ctx['can_view_problem'] = user.has_perm(
+            'problems.view_problem', problem
         )
         for file in ctx['files']:
             file.contents_for_editor = file.contents
 
-        if self.request.user.is_authenticated:
-            ctx['submissions'] = self.request.user.submissions.filter(
+        if user.is_authenticated:
+            ctx['submissions'] = user.submissions.filter(
                 problem=self.object.problem.id
             )
-            ctx['can_change_submission'] = self.request.user.has_perm(
-                'submissions.change_submission', ctx['submission']
+            ctx['can_change_submission'] = user.has_perm(
+                'submissions.change_submission', submission
             )
-            ctx['can_delete_submission'] = self.request.user.has_perm(
-                'submissions.delete_submission', ctx['submission']
+            ctx['can_delete_submission'] = user.has_perm(
+                'submissions.delete_submission', submission
             )
-            ctx['can_read_another_solution'] = (
-                ctx['submission'].problem.passed_users
-                .filter(id=self.request.user.id).exists()
+            ctx['is_passed_user'] = (
+                problem.passed_users
+                .filter(id=user.id).exists()
             )
+            ctx['can_read_another_solution'] = ctx['is_passed_user']
+
+        ctx['navigation'] = navigation(ctx)
+
         return ctx
