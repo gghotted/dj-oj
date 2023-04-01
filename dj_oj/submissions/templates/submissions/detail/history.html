@@ -1,0 +1,69 @@
+<div class="modal" id="id-history-modalview" tabindex="-1" aria-labelledby="id-result-modalviewLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">제출 기록 ({{submissions.count}} 개)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"  style="height: 70vh; overflow: scroll;">
+                <table id="id-history-table" class="table table-hover w-100"
+                    data-order='[[1, "desc"]]'
+                >
+                    <thead>
+                        <tr>
+                            <td>타임스탬프</td>
+                            <th>날짜</th>
+                            <th>결과</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for submission in submissions %}
+                        <tr role="button"
+                            class="table-{% if submission.judge.results_status == 'success' %}success{% else %}danger{% endif %}"
+                            onclick="window.location=this.dataset.href"
+                            data-href="{% url 'submissions:detail' submission.id %}"
+                        >
+                            <td>{{submission.created_at.timestamp}}</td>
+                            <td>{{submission.created_at}}</td>
+                            <td
+                            >
+                                {{submission.get_test_status_detail_display}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <script>
+                    new DataTable('#id-history-table', {
+                        "language": {
+                            "lengthMenu": "_MENU_ 개씩 보기",
+                            "zeroRecords": "검색 결과가 없습니다",
+                            "info": "",
+                            "infoEmpty": "",
+                            "infoFiltered": "",
+                            "paginate": {
+                                "first": "처음",
+                                "last": "마지막",
+                                "next": "다음",
+                                "previous": "이전",
+                            },
+                        },
+                        "columnDefs": [
+                            {
+                                "targets": 0,
+                                "visible": false,
+                            },
+                            {
+                                "targets": 1,
+                                "orderData": 0,
+                            },
+                        ],
+                    });
+                </script>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>

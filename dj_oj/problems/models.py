@@ -100,6 +100,7 @@ class File(BaseModel):
 
     class Meta(BaseModel.Meta):
         abstract = True
+        ordering = ['name']
 
 
 class EditableFile(File):

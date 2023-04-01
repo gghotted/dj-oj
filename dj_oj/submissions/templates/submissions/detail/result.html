@@ -1,0 +1,87 @@
+<div id="id-result" class="d-flex flex-column p-3" style="width: 45%; overflow: hidden; background-color: #2f3742;">
+    {% if submission.get_test_status_display != '완료' %}
+    <div id="id-status-refresh" data-check-url="{% url 'submissions_api:detail' submission.id %}"
+        data-check-key="test_status_display" data-check-value="완료" data-max-try-msg="요청이 많아 대기시간이 깁니다. 잠시후 새로고침 해주세요."
+        class="h-100 d-flex flex-column justify-content-center align-items-center">
+        <div id="id-status-spinner" class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"
+            role="status">
+        </div>
+        <div class="h4 text-light">
+            <span>테스트 </span>
+            <span id="id-status-description">{{submission.get_test_status_display}}</span>
+        </div>
+    </div>
+    {% else %}
+    <div id="id-result-detail">
+        <div class="alert text-center
+            {% if submission.judge.results_status == 'success' %}
+            alert-success
+            {% else %}
+            alert-danger
+            {% endif %}
+        ">
+            <span class="h4">
+                {{submission.judge.get_results_status_display}}
+                {% if submission.judge.test_total_count %}
+                ({{submission.judge.test_passed_count}}/{{submission.judge.test_total_count}})
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="modal" id="id-result-modalview" tabindex="-1" aria-labelledby="id-result-modalviewLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="height: 70vh;">
+                        <textarea hidden id="id-result-code-contents"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if submission.judge.stderr %}
+        <textarea hidden id="id-stderr">{{submission.judge.stderr}}</textarea>
+        {% endif %}
+
+        {% if submission.judge.test_results.all %}
+
+        <table class="table">
+            <thead>
+                <tr class="text-light">
+                    <th scope="col">#</th>
+                    <th scope="col">결과</th>
+                    <th scope="col">시간(ms)</th>
+                    <th scope="col">DB 쿼리 수</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in submission.judge.test_results.all %}
+                <tr class="table-{% if test.status == 'fail' %}danger{% else %}success{% endif %}">
+                    <td scope="row">{{test.number}}</td>
+                    <td>{{test.get_status_display}}</td>
+                    <td>{{test.runtime | floatformat:2}}</td>
+                    <td>
+                        {{test.query_count}}
+                        {% if test.query_count %}
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#id-result-modalview"
+                            onclick="setEditorValue('id-queries-contents{{test.number}}', 'id-result-code-contents');">
+                            SQL 보기
+                        </button>
+                        <textarea hidden id="id-queries-contents{{test.number}}">{{test.get_queries_display}}</textarea>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>

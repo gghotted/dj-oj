@@ -1,0 +1,67 @@
+{% extends 'core/base_fullscreen.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'core/dark_scrollbar.css' %}">
+<style>
+    .CodeMirror {
+        height: 100% !important;
+    }
+</style>
+{% endblock %}
+
+{% block media %}
+<!-- for codemirror -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.css">
+<link rel="stylesheet" href="https://codemirror.net/5/theme/base16-dark.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.js"></script>
+<script src="https://codemirror.net/5/mode/python/python.js"></script>
+<script src="https://codemirror.net/5/mode/sql/sql.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'submissions/editor.js' %}"></script>
+
+<!-- for result render -->
+<script src="{% static 'submissions/refresh_status.js' %}"></script>
+
+<!-- for datatable -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- for request api -->
+<script src="{% static 'core/request_api.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+<div class="bg-dark py-1 px-5 d-flex align-items-center justify-content-between">
+    {% include 'core/navigation_header.html' %}
+
+    {% if can_change_submission %}
+    <div class="form-check form-switch">
+        <input
+            class="form-check-input"
+            type="checkbox"
+            {% if submission.is_public %}checked{% endif %}
+            style="cursor: pointer;"
+            role="requestAPI"
+            data-url="{% url 'submissions_api:detail' submission.id %}"
+            data-method="patch"
+            data-get-data="(e) => {return {is_public: e.checked}}"
+        >
+        <label class="form-check-label text-light" >공개</label>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block content %}
+<div class="flex-fill d-flex bg-secondary">
+    {% include 'submissions/detail/result.html' %}
+    {% include 'submissions/create/editor.html' %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'submissions/detail/footer.html' %}
+{% endblock %}
