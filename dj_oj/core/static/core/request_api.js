@@ -43,9 +43,11 @@ $(document).ready(function () {
     $('[role=requestAPI][data-url][data-method]').click(function ({ target }) {
         $(target).attr('disabled', true);
 
-        const { url, method } = target.dataset
+        const { url, method, confirmMessage } = target.dataset
+
+        if (confirmMessage && !confirm(confirmMessage)) return ;
+
         var data = {};
-        
         if (target.dataset.getData) {
             var getData = eval(target.dataset.getData);
             data = getData(target);
