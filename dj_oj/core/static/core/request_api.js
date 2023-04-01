@@ -44,10 +44,20 @@ $(document).ready(function () {
         $(target).attr('disabled', true);
 
         const { url, method } = target.dataset
+        var data = {};
+        
+        if (target.dataset.getData) {
+            var getData = eval(target.dataset.getData);
+            data = getData(target);
+        }
+        data = JSON.stringify(data)
 
         $.ajax({
             url: url,
             method: method,
+            data: data,
+            dataType: 'json',
+            contentType: 'application/json',
         }).done(function (json) {
             if (json.redirect_url) document.location.href = json.redirect_url;
             else {
@@ -55,6 +65,7 @@ $(document).ready(function () {
                     $(target).attr('disabled', false);
                 }, 2000);
                 alertMssage(json.message || '정상적으로 처리되었습니다');
+                console.log(json);
             }
         }).fail(function (xhr, status, errorThrown) {
             alertMssage('정상적으로 처리되지 않았습니다', 'alert-danger');

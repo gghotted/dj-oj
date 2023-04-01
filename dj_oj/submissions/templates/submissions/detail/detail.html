@@ -44,8 +44,9 @@
             {% if submission.is_public %}checked{% endif %}
             style="cursor: pointer;"
             role="requestAPI"
-            data-url="{% url 'submissions_api:is_public_toggle' submission.id %}"
-            data-method="post"
+            data-url="{% url 'submissions_api:detail' submission.id %}"
+            data-method="patch"
+            data-get-data="(e) => {return {is_public: e.checked}}"
         >
         <label class="form-check-label text-light" >공개</label>
     </div>
