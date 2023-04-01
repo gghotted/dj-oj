@@ -39,7 +39,7 @@
 {% block content %}
 <div class="flex-fill d-flex bg-secondary">
     {% include 'problems/description.html' %}
-    {% include 'submissions/create/editor.html' with files=form.editable_files %}
+    {% include 'submissions/create/editor.html' with files=initial_files %}
 </div>
 {% endblock %}
 

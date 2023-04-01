@@ -1,12 +1,11 @@
 <div class="bg-dark px-3 py-2 d-flex justify-content-between border-top border-secondary">
     <div>
-        {% if can_read_another_solution %}
-        <a class="btn btn-secondary mx-2" href="#">다른 사람의 풀이</a>
+        {% if can_view_another_solution %}
+            <a class="btn btn-secondary mx-2" href="#">다른 사람의 풀이</a>
         {% endif %}
     </div>
     <div>
-        {% if request.user.is_authenticated %}
-        {% if submissions %}
+        {% if can_view_submissions and submissions %}
             {% include 'submissions/detail/history.html' with submissions=submissions %}
             <a
                 class="btn btn-secondary mx-2"
@@ -16,9 +15,11 @@
                 제출 기록
             </a>
         {% endif %}
-        <a class="btn btn-primary mx-2" onclick="submission('id-editor-form', getEditorData());">제출</a>
+        
+        {% if can_submit %}
+            <a class="btn btn-primary mx-2" onclick="submission('id-editor-form', getEditorData());">제출</a>
         {% else %}
-        <a class="btn btn-primary mx-2" href="{% url 'users:login' %}?next={{request.path}}">로그인</a>
+            <a class="btn btn-primary mx-2" href="{% url 'users:login' %}?next={{request.path}}">로그인</a>
         {% endif %}
     </div>
 </div>

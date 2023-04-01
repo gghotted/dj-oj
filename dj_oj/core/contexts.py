@@ -1,6 +1,22 @@
+from django.http import HttpRequest
 from django.urls import reverse
 from django.utils.formats import localize
 from django.utils.timezone import localtime
+
+
+class Context:
+    keys = tuple()
+
+    def __init__(self, initial_ctx, request):
+        self.initial_ctx = initial_ctx
+        self.request: HttpRequest = request
+        self.user = self.request.user
+
+    def to_dict(self):
+        ctx = dict(self.initial_ctx)
+        for key in self.keys:
+            ctx[key] = getattr(self, key)
+        return ctx
 
 
 def navigation(context: dict):

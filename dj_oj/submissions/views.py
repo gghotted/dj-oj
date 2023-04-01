@@ -13,6 +13,7 @@ from django.utils.timezone import localtime
 from django.views.generic import CreateView, DetailView
 from problems.models import Problem
 
+from submissions.contexts import SubmissionCreateContext
 from submissions.forms import SubmissionCreateForm
 from submissions.models import Submission
 
@@ -58,28 +59,11 @@ class SubmissionCreateView(
         return kwargs
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-
-        user = self.request.user
-        problem = ctx['form'].problem
-        ctx['problem'] = problem
-        
-        if user.is_authenticated:
-            ctx['can_read_another_solution'] = (
-                problem.passed_users
-                .filter(id=user.id).exists()
-            )
-            ctx['submissions'] = user.submissions.filter(
-                problem=problem.id
-            )
-            ctx['is_passed_user'] = (
-                problem.passed_users
-                .filter(id=user.id).exists()
-            )
-        
-        ctx['navigation'] = navigation(ctx)
-
-        return ctx
+        return SubmissionCreateContext(
+            super().get_context_data(**kwargs),
+            self.request,
+            self.get_object(),
+        ).to_dict()
 
     def form_invalid(self, form):
         messages.add_message(
