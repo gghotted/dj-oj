@@ -14,8 +14,8 @@
 <body>
     <div class="container-fluid vh-100 p-0 bg-secondary d-flex flex-column">
         {% block header %} {% endblock %}
-        {% include 'core/messages.html' %}
         {% block content %} {% endblock %}
+        {% include 'core/messages.html' %}
         {% block footer %} {% endblock %}
     </div>
     {% block script %} {% endblock %}
