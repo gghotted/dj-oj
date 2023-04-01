@@ -13,7 +13,8 @@ from django.utils.timezone import localtime
 from django.views.generic import CreateView, DetailView
 from problems.models import Problem
 
-from submissions.contexts import SubmissionCreateContext
+from submissions.contexts import (SubmissionCreateContext,
+                                  SubmissionDetailContext)
 from submissions.forms import SubmissionCreateForm
 from submissions.models import Submission
 
@@ -89,36 +90,8 @@ class SubmissionDetailView(
     object_level_permissions = True
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        
-        user = self.request.user
-        submission = ctx['submission']
-        problem = submission.problem
-        ctx['problem'] = problem
-        ctx['editor_readonly'] = True
-        ctx['files'] = submission.files.all()
-        ctx['can_view_problem'] = user.has_perm(
-            'problems.view_problem', problem
-        )
-        for file in ctx['files']:
-            file.contents_for_editor = file.contents
-
-        if user.is_authenticated:
-            ctx['submissions'] = user.submissions.filter(
-                problem=self.object.problem.id
-            )
-            ctx['can_change_submission'] = user.has_perm(
-                'submissions.change_submission', submission
-            )
-            ctx['can_delete_submission'] = user.has_perm(
-                'submissions.delete_submission', submission
-            )
-            ctx['is_passed_user'] = (
-                problem.passed_users
-                .filter(id=user.id).exists()
-            )
-            ctx['can_read_another_solution'] = ctx['is_passed_user']
-
-        ctx['navigation'] = navigation(ctx)
-
-        return ctx
+        return SubmissionDetailContext(
+            super().get_context_data(**kwargs),
+            self.request,
+            self.get_object(),
+        ).to_dict()
