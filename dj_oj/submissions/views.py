@@ -1,7 +1,8 @@
 from functools import cache
 
-from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from braces.views import LoginRequiredMixin
 from core.contexts import navigation
+from core.permissions import PermissionRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied

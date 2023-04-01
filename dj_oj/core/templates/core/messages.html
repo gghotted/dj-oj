@@ -5,14 +5,14 @@
 {% for message in messages %}
 
 
-<div class="alert alert-dismissible fade show mb-0
+<div class="alert alert-dismissible fade show mb-0 text-center
     {% if message.tags == 'error' %}
         alert-danger
     {% else %}
         alert-info
     {% endif %}
 ">
-    {{message.message}}
+    <strong>{{message.message}}</strong>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 
