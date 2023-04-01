@@ -44,7 +44,7 @@ def navigation(context: dict):
             '제출 결과(%s)' % localize(localtime(submission.created_at)),
             reverse(
                 'submissions:detail',
-                args=[submission.id]
+                args=[submission.uuid]
             )
         ))
     

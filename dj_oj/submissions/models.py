@@ -1,9 +1,15 @@
 from core.models import BaseModel
 from django.db import models
+from django_extensions.db.fields import RandomCharField
 from problems.models import File
 
 
 class Submission(BaseModel):
+    uuid = RandomCharField(
+        verbose_name='uuid',
+        length=12,
+        unique=True,
+    )
     created_by = models.ForeignKey(
         to='users.User',
         on_delete=models.CASCADE,

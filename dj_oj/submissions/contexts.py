@@ -28,7 +28,7 @@ def navigation_detail_submission(submission):
         ),
         reverse(
             'submissions:detail',
-            args=[submission.id],
+            args=[submission.uuid],
         )
     )
 

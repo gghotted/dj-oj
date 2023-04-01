@@ -42,12 +42,12 @@ class SubmissionCreateView(
             return 'problems.add_submission'
 
     def get_editable_files(self, problem):
-        submission_id = self.request.GET.get('initial')
+        submission_uuid = self.request.GET.get('initial')
 
-        if not submission_id:
+        if not submission_uuid:
             return problem.editable_files.all()
         
-        submission = get_object_or_404(problem.submissions, id=submission_id)
+        submission = get_object_or_404(problem.submissions, uuid=submission_uuid)
         if not self.request.user.has_perm('submissions.view_submission', submission):
             raise PermissionDenied
         
@@ -76,7 +76,7 @@ class SubmissionCreateView(
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse('submissions:detail', args=[self.object.id])
+        return reverse('submissions:detail', args=[self.object.uuid])
 
 
 class SubmissionDetailView(
@@ -84,7 +84,9 @@ class SubmissionDetailView(
     DetailView
 ):
     template_name = 'submissions/detail/detail.html'
-    pk_url_kwarg = 'submission_id'
+    slug_url_kwarg = 'submission_uuid'
+    slug_field = 'uuid'
+
     queryset = Submission.objects.all()
     
     permission_required = 'submissions.view_submission'

@@ -44,7 +44,7 @@
             {% if submission.is_public %}checked{% endif %}
             style="cursor: pointer;"
             role="requestAPI"
-            data-url="{% url 'submissions_api:detail' submission.id %}"
+            data-url="{% url 'submissions_api:detail' submission.uuid %}"
             data-method="patch"
             data-get-data="(e) => {return {is_public: e.checked}}"
         >

@@ -4,7 +4,7 @@
         <a
             class="btn btn-danger mx-2"
             role="requestAPI"
-            data-url="{% url 'submissions_api:detail' submission.id %}"
+            data-url="{% url 'submissions_api:detail' submission.uuid %}"
             data-method="delete",
             data-confirm-message="삭제 하시겠습니까?"
         >
@@ -24,7 +24,7 @@
         {% endif %}
         {% if can_view_problem %}
             <a class="btn btn-primary mx-2"
-                href="{% url 'problems:create_submission' submission.problem.id %}?initial={{submission.id}}">이어서 다시 풀기</a>
+                href="{% url 'problems:create_submission' submission.problem.id %}?initial={{submission.uuid}}">이어서 다시 풀기</a>
             <a class="btn btn-primary mx-2" href="{% url 'problems:create_submission' submission.problem.id %}">처음부터 다시
                 풀기</a>
         {% endif %}
