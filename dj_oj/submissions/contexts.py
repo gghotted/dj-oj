@@ -22,7 +22,10 @@ def navigation_create_submission(problem, is_solved_problem):
 
 def navigation_detail_submission(submission):
     return (
-        '제출 결과(%s)' % localize(localtime(submission.created_at)),
+        '%s 님의 제출(%s)' % (
+            submission.created_by,
+            localize(localtime(submission.created_at))
+        ),
         reverse(
             'submissions:detail',
             args=[submission.id],
