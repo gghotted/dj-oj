@@ -23,7 +23,7 @@ $.ajaxSetup({
 });
 
 
-function alertMssage(message, alert_cls = 'alert-success', time = 5000) {
+function alertMssage(message, alert_cls = 'alert-success', time=3000) {
     var ele = $('#id-message-alert');
 
     var alertEle = $(
@@ -65,7 +65,7 @@ $(document).ready(function () {
             else {
                 setTimeout(function() {
                     $(target).attr('disabled', false);
-                }, 2000);
+                }, 3000);
                 alertMssage(json.message || '정상적으로 처리되었습니다');
                 console.log(json);
             }
