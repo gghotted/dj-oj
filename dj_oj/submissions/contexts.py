@@ -113,6 +113,7 @@ class SubmissionDetailContext(Context):
         # contents
         'submission',
         'files',
+        'editor_readonly',
 
         # footer
         'can_delete_submission',
@@ -147,6 +148,9 @@ class SubmissionDetailContext(Context):
     @cached_property
     def files(self):
         return list(self.submission.files.all())
+
+    def editor_readonly(self):
+        return True
 
     def can_delete_submission(self):
         return self.user.has_perm('submissions.delete_submission', self.submission)

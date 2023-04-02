@@ -6,13 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!(tabEle.id in editors)) {
             var contentId = tabEle.dataset['bsTarget'];
             var editorEle = $(contentId + '>textarea')[0];
+            var readOnly = editorEle.hasAttribute('readonly')
+            if (readOnly) readOnly = 'nocursor';
             editors[tabEle.id] = CodeMirror.fromTextArea(editorEle, {
                 theme: "base16-dark",
                 mode: "python",
                 lineNumbers: true,
                 indentUnit: 4,
                 // indentWithTabs: true,
-                readOnly: editorEle.hasAttribute('readonly'),
+                readOnly: readOnly,
             });
         }
     }
@@ -50,7 +52,7 @@ function getEditorData() {
 }
 
 
-function setEditorValue(fromId, toId, mode='sql', readonly=true) {
+function setEditorValue(fromId, toId, mode='sql', readonly='nocursor') {
     var editor = null;
 
     if (toId in editors) editor = editors[toId]
