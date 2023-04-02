@@ -69,7 +69,10 @@ def _run_judge(judge, run_func, input_files, volume_path):
     judge.save()
 
     if result:
-        save_test_result(judge, result)
+        test_results = save_test_result(judge, result)
+        total_query_count = sum(map(lambda t: t.query_count, test_results))
+        judge.average_query_count = total_query_count / len(test_results)
+        judge.save()
     
 
 def run_judge(submission_id):

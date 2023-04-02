@@ -40,6 +40,10 @@ class Judge(BaseModel):
         verbose_name='테스트 통과 개수',
         null=True,
     )
+    average_query_count = models.FloatField(
+        verbose_name='평균 쿼리 수',
+        null=True,
+    )
 
 
 '''
