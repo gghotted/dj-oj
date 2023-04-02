@@ -36,6 +36,9 @@ class Submission(BaseModel):
         ],
         default='pending',
     )
+    total_contents_len = models.PositiveIntegerField(
+        verbose_name='제출 파일의 총 길이',
+    )
 
     @property
     def get_test_status_detail_display(self):
