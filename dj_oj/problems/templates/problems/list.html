@@ -1,0 +1,59 @@
+{% extends 'core/base_site.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} 문제 목록 {% endblock %}
+
+{% block wrapped_content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-lg-9 order-2 order-lg-1">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>난이도</th>
+                        <th>유형</th>
+                        <th>푼 사람 수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for problem in problems %}
+                    <tr role="button"
+                        onclick="window.location=this.dataset.href"
+                        data-href="{% url 'problems:create_submission' problem.id %}"
+                    >
+                        <td>{{problem.id}}</td>
+                        <td>
+                            {{problem.title}}
+                            {% if problem.is_solved %}
+                            <span class="badge bg-success ms-1">&check;</span>
+                            {% endif %}
+                        </td>
+                        <td>{{problem.get_difficulty_display}}</td>
+                        <td>
+                            {% for category in problem.categories.all %}
+                            <span class="badge bg-secondary">{{category.display_name}}</span>
+                            {% endfor %}
+                        </td>
+                        <td>{{problem.passed_users_count}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% include 'core/pagination.html' %}
+        </div>
+
+        <div class="col-12 col-lg-3 order-1 order-lg-2">
+            <form method="get" id="id-filter-form">
+                {{filter_form | crispy }}
+                <div class="d-flex flex-row-reverse">
+                    <button type="submit" class="btn btn-primary">검색</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

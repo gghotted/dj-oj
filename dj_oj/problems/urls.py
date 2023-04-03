@@ -1,11 +1,17 @@
 from django.urls import path
 from submissions.views import SubmissionCreateView
 
+from problems.views import ProblemListView
 from problems.views.solution import SolutionListView
 
 app_name = 'problems'
 
 urlpatterns = [
+    path(
+        '',
+        ProblemListView.as_view(),
+        name='list',
+    ),
     path(
         '<int:problem_id>/submissions/create/',
         SubmissionCreateView.as_view(),

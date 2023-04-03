@@ -7,7 +7,7 @@ from django.urls import reverse
 def navigation_list_problem():
     return (
         '문제 목록',
-        '#',
+        reverse('problems:list'),
     )
 
 
@@ -52,6 +52,25 @@ class SolutionListContext(Context):
     @cached_property
     def solutions(self):
         return list(self.initial_ctx['submission_list'])
+
+    def page_obj(self):
+        return self.initial_ctx['page_obj']
+
+
+class ProblemListContext(Context):
+    keys = (
+        # contents
+        'filter_form',
+        'problems',
+        'page_obj',
+    )
+
+    def __init__(self, initial_ctx, request, filter_form):
+        super().__init__(initial_ctx, request)
+        self.filter_form = filter_form
+
+    def problems(self):
+        return list(self.initial_ctx['problem_list'])
 
     def page_obj(self):
         return self.initial_ctx['page_obj']
