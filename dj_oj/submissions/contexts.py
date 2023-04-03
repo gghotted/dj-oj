@@ -44,7 +44,7 @@ class SubmissionCreateContext(Context):
         'initial_files',
 
         # footer
-        'can_view_another_solution',
+        'can_view_solution',
         'can_view_submissions',
         'submissions',
         'can_submit',
@@ -62,10 +62,7 @@ class SubmissionCreateContext(Context):
 
     @cached_property
     def is_solved_problem(self):
-        return (
-            self.user.is_authenticated and
-            self.problem.passed_users.filter(id=self.user.id).exists()
-        )
+        return self.user.has_perm('problems.view_solution', self.problem)
 
     def initial_files(self):
         '''
@@ -87,7 +84,7 @@ class SubmissionCreateContext(Context):
             for file in self.initial_ctx['form'].editable_files
         ]
 
-    def can_view_another_solution(self):
+    def can_view_solution(self):
         return self.is_solved_problem
 
     def can_view_submissions(self):
@@ -117,7 +114,7 @@ class SubmissionDetailContext(Context):
 
         # footer
         'can_delete_submission',
-        'can_view_another_solution',
+        'can_view_solution',
         'can_view_submissions',
         'submissions',
         'can_view_problem',
@@ -137,10 +134,7 @@ class SubmissionDetailContext(Context):
 
     @cached_property
     def is_solved_problem(self):
-        return (
-            self.user.is_authenticated and
-            self.problem.passed_users.filter(id=self.user.id).exists()
-        )
+        return self.user.has_perm('problems.view_solution', self.problem)
 
     def can_change_submission(self):
         return self.user.has_perm('submissions.change_submission', self.submission)
@@ -155,7 +149,7 @@ class SubmissionDetailContext(Context):
     def can_delete_submission(self):
         return self.user.has_perm('submissions.delete_submission', self.submission)
 
-    def can_view_another_solution(self):
+    def can_view_solution(self):
         return self.is_solved_problem
     
     def can_view_submissions(self):

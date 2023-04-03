@@ -47,10 +47,7 @@ class SolutionListContext(Context):
 
     @cached_property
     def is_solved_problem(self):
-        return (
-            self.user.is_authenticated and
-            self.problem.passed_users.filter(id=self.user.id).exists()
-        )
+        return self.user.has_perm('problems.view_solution', self.problem)
 
     @cached_property
     def solutions(self):
