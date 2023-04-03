@@ -24,7 +24,7 @@
                             data-href="{% url 'submissions:detail' submission.uuid %}"
                         >
                             <td>{{submission.created_at.timestamp}}</td>
-                            <td>{{submission.created_at}}</td>
+                            <td>{{submission.created_at_relative}}</td>
                             <td
                             >
                                 {{submission.get_test_status_detail_display}}

@@ -9,3 +9,4 @@ django-pure-pagination==0.3.0
 django-tinymce==3.6.1
 docker==6.0.1
 rules==3.3
+timeago==1.0.16
