@@ -43,7 +43,7 @@ $(document).ready(function () {
     $('[role=requestAPI][data-url][data-method]').click(function ({ target }) {
         $(target).attr('disabled', true);
 
-        const { url, method, confirmMessage } = target.dataset
+        const { url, method, confirmMessage, redirectUrl } = target.dataset
 
         if (confirmMessage && !confirm(confirmMessage)) return ;
 
@@ -61,7 +61,8 @@ $(document).ready(function () {
             dataType: 'json',
             contentType: 'application/json',
         }).done(function (json) {
-            if (json.redirect_url) document.location.href = json.redirect_url;
+            if (redirectUrl) document.location.href = redirectUrl;
+            else if (json.redirect_url) document.location.href = json.redirect_url;
             else {
                 setTimeout(function() {
                     $(target).attr('disabled', false);

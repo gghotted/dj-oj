@@ -1,7 +1,7 @@
 <div class="bg-dark px-3 py-2 d-flex justify-content-between border-top border-secondary">
     <div>
         {% if can_view_another_solution %}
-            <a class="btn btn-secondary mx-2" href="#">다른 사람의 풀이</a>
+            <a class="btn btn-secondary mx-2" href="{% url 'problems:list_solution' problem.id %}">다른 사람의 풀이</a>
         {% endif %}
     </div>
     <div>
