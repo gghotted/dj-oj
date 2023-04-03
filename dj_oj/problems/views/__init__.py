@@ -2,35 +2,58 @@ import django_filters
 from core.permissions import PermissionRequiredMixin
 from django.db.models.aggregates import Count
 from django.db.models.expressions import Exists, OuterRef
+from django.forms import widgets
 from django.views.generic import ListView
 from problems.contexts import ProblemListContext
-from problems.models import Problem
+from problems.models import Category, Difficulty, Problem
 from pure_pagination.mixins import PaginationMixin
 from users.models import User
 
 
 class ProblemFilter(django_filters.FilterSet):
+    '''
+    라벨 있음, 라디오 박스
+    '''
+    difficulty = django_filters.ModelChoiceFilter(
+        widget=widgets.RadioSelect(),
+        queryset=Difficulty.objects.all(),
+        field_name='difficulty',
+        empty_label='모든 난이도',
+        blank=True,
+        label='난이도',
+    )
+    category = django_filters.ModelChoiceFilter(
+        widget=widgets.RadioSelect(),
+        queryset=Category.objects.all(),
+        field_name='categories',
+        empty_label='모든 유형',
+        blank=True,
+        label='유형',
+    )
     state = django_filters.ChoiceFilter(
+        widget=widgets.RadioSelect(),
         field_name='is_solved',
         choices=(
             (True, '푼 문제'),
             (False, '안 푼 문제'),
         ),
+        empty_label='모든 상태',
         label='상태'
     )
     o = django_filters.OrderingFilter(
         choices=(
-            ('-created_at', '최신'),
-            ('-passed_users_count', '푼 사람 많은'),
-            ('passed_users_count', '푼 사람 적은'),
+            ('-passed_users_count', '푼 사람 많은 순'),
+            ('passed_users_count', '푼 사람 적은 순'),
         ),
-        label='정렬'
+        empty_label='최신 순',
+        label=''
     )
 
     class Meta:
         model = Problem
         fields = (
             'difficulty',
+            'category',
             'state',
             'o',
         )

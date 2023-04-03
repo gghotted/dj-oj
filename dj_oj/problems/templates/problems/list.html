@@ -89,11 +89,10 @@
 
                 <div class="col-8 col-lg-12">
                     <div class="mb-3 bg-white p-3 rounded-3 border">
-                        <form method="get" id="id-filter-form">
+                        
+                        <form method="get" data-form-type="autoSubmit">
+                            {% include 'core/reset_filter.html' %}
                             {{filter_form | crispy }}
-                            <div class="d-flex flex-row-reverse">
-                                <button type="submit" class="btn btn-primary">검색</button>
-                            </div>
                         </form>
                     </div>
                 </div>

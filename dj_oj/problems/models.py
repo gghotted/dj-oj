@@ -31,7 +31,7 @@ class Category(BaseModel):
     )
 
     def __str__(self):
-        return self.name
+        return self.display_name
 
 
 class Difficulty(BaseModel):
@@ -48,7 +48,7 @@ class Difficulty(BaseModel):
     )
 
     def __str__(self):
-        return '%s(%d점)' % (self.display_name, self.score)
+        return self.display_name
 
 
 class Problem(BaseModel):
