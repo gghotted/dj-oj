@@ -4,7 +4,7 @@
 
         {% for link in navigation %}
         <p class="me-3 text-secondary d-inline">></p>
-        <a href="{{link.1}}" class="me-3 text-light text-decoration-none">{{link.0}}</a>
+        <a href="{{link.1}}" class="me-3 text-light text-decoration-none">{{link.0 | safe}}</a>
         {% endfor %}
     </div>
 </div>

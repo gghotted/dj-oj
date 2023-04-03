@@ -1,4 +1,6 @@
+import timeago
 from django.db import models
+from django.utils.timezone import now
 
 
 class BaseModel(models.Model):
@@ -14,3 +16,11 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
         ordering = ['-created_at']
+
+    @property
+    def created_at_relative(self):
+        return timeago.format(
+            self.created_at,
+            now(),
+            'ko',
+        )

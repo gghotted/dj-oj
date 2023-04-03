@@ -4,5 +4,5 @@ from submissions.api.views import SubmissionDetailAPIView
 app_name = 'submissions_api'
 
 urlpatterns = [
-    path('<int:submission_id>/', SubmissionDetailAPIView.as_view(), name='detail'),
+    path('<str:submission_uuid>/', SubmissionDetailAPIView.as_view(), name='detail'),
 ]

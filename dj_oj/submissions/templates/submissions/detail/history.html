@@ -21,10 +21,10 @@
                         <tr role="button"
                             class="table-{% if submission.judge.results_status == 'success' %}success{% else %}danger{% endif %}"
                             onclick="window.location=this.dataset.href"
-                            data-href="{% url 'submissions:detail' submission.id %}"
+                            data-href="{% url 'submissions:detail' submission.uuid %}"
                         >
                             <td>{{submission.created_at.timestamp}}</td>
-                            <td>{{submission.created_at}}</td>
+                            <td>{{submission.created_at_relative}}</td>
                             <td
                             >
                                 {{submission.get_test_status_detail_display}}

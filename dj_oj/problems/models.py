@@ -84,6 +84,16 @@ class Problem(BaseModel):
         verbose_name='볼륨 트리 구조',
     )
 
+    '''
+    한 번 이라도 통과 했던 유저를 저장
+    제출 기록을 삭제하더라도 통과 여부를 기록하기 위함
+    '''
+    passed_users = models.ManyToManyField(
+        to='users.User',
+        related_name='passed_problems',
+        verbose_name='통과한 유저들',
+    )
+
 
 class File(BaseModel):
     name = models.CharField(

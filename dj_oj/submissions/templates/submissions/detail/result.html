@@ -1,6 +1,6 @@
 <div id="id-result" class="d-flex flex-column p-3" style="width: 45%; overflow: hidden; background-color: #2f3742;">
     {% if submission.get_test_status_display != '완료' %}
-    <div id="id-status-refresh" data-check-url="{% url 'submissions_api:detail' submission.id %}"
+    <div id="id-status-refresh" data-check-url="{% url 'submissions_api:detail' submission.uuid %}"
         data-check-key="test_status_display" data-check-value="완료" data-max-try-msg="요청이 많아 대기시간이 깁니다. 잠시후 새로고침 해주세요."
         class="h-100 d-flex flex-column justify-content-center align-items-center">
         <div id="id-status-spinner" class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"

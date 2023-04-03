@@ -23,7 +23,7 @@ $.ajaxSetup({
 });
 
 
-function alertMssage(message, alert_cls = 'alert-success', time = 5000) {
+function alertMssage(message, alert_cls = 'alert-success', time=3000) {
     var ele = $('#id-message-alert');
 
     var alertEle = $(
@@ -43,7 +43,7 @@ $(document).ready(function () {
     $('[role=requestAPI][data-url][data-method]').click(function ({ target }) {
         $(target).attr('disabled', true);
 
-        const { url, method, confirmMessage } = target.dataset
+        const { url, method, confirmMessage, redirectUrl } = target.dataset
 
         if (confirmMessage && !confirm(confirmMessage)) return ;
 
@@ -61,11 +61,12 @@ $(document).ready(function () {
             dataType: 'json',
             contentType: 'application/json',
         }).done(function (json) {
-            if (json.redirect_url) document.location.href = json.redirect_url;
+            if (redirectUrl) document.location.href = redirectUrl;
+            else if (json.redirect_url) document.location.href = json.redirect_url;
             else {
                 setTimeout(function() {
                     $(target).attr('disabled', false);
-                }, 2000);
+                }, 3000);
                 alertMssage(json.message || '정상적으로 처리되었습니다');
                 console.log(json);
             }

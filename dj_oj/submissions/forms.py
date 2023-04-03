@@ -60,9 +60,14 @@ class SubmissionCreateForm(forms.ModelForm):
         return contents
 
     def save(self):
+        total_contents_len = sum(
+            len(self.cleaned_data['contents'][editable.name])
+            for editable in self.editable_files
+        )
         obj = Submission.objects.create(
             created_by=self.user,
             problem=self.problem,
+            total_contents_len=total_contents_len,
         )
         files = [
             SubmissionFile(

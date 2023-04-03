@@ -9,7 +9,9 @@ from submissions.models import Submission
 
 class SubmissionDetailAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = [DjangoObjectPermissions]
-    lookup_url_kwarg = 'submission_id'
+    lookup_url_kwarg = 'submission_uuid'
+    lookup_field = 'uuid'
+
     queryset = Submission.objects.all()
 
     def get_serializer_class(self):
