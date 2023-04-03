@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var contentId = tabEle.dataset['bsTarget'];
             var editorEle = $(contentId + '>textarea')[0];
             var readOnly = editorEle.hasAttribute('readonly')
-            if (readOnly) readOnly = 'nocursor';
+            // if (readOnly) readOnly = 'nocursor';
             editors[tabEle.id] = CodeMirror.fromTextArea(editorEle, {
                 theme: "base16-dark",
                 mode: "python",
@@ -52,7 +52,7 @@ function getEditorData() {
 }
 
 
-function setEditorValue(fromId, toId, mode='sql', readonly='nocursor') {
+function setEditorValue(fromId, toId, mode='sql', readonly=true) {
     var editor = null;
 
     if (toId in editors) editor = editors[toId]
