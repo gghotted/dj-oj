@@ -24,7 +24,7 @@ def navigation_detail_submission(submission):
     return (
         '%s 님의 제출(%s)' % (
             submission.created_by,
-            localize(localtime(submission.created_at))
+            submission.created_at_relative,
         ),
         reverse(
             'submissions:detail',
