@@ -4,7 +4,8 @@ import os
 import docker
 from django.contrib import admin
 
-from problems.models import Category, DockerImage, EditableFile, Problem
+from problems.models import (Category, Difficulty, DockerImage, EditableFile,
+                             Problem)
 
 
 @admin.register(DockerImage)
@@ -28,6 +29,11 @@ class DockerImageAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Difficulty)
+class DifficultyAdmin(admin.ModelAdmin):
     pass
 
 

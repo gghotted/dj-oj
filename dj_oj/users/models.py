@@ -1,6 +1,7 @@
 from core.models import BaseModel
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.db.models import Sum
 
 
 class UserManager(BaseUserManager):
@@ -16,6 +17,11 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
         user = self.create_user(email, password, **extra_fields)
         return user
+
+    def with_score(self):
+        return self.annotate(
+            score=Sum('passed_problems__difficulty__score'),
+        )
 
 
 class User(BaseModel, AbstractUser):

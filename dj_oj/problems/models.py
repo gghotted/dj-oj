@@ -34,6 +34,23 @@ class Category(BaseModel):
         return self.name
 
 
+class Difficulty(BaseModel):
+    name = models.CharField(
+        verbose_name='이름',
+        max_length=16,
+    )
+    display_name = models.CharField(
+        verbose_name='보이는 이름',
+        max_length=16,
+    )
+    score = models.PositiveIntegerField(
+        verbose_name='점수',
+    )
+
+    def __str__(self):
+        return '%s(%d점)' % (self.display_name, self.score)
+
+
 class Problem(BaseModel):
     created_by = models.ForeignKey(
         to='users.User',
@@ -47,14 +64,12 @@ class Problem(BaseModel):
         max_length=64,
     )
     description = HTMLField()
-    difficulty = models.CharField(
+    difficulty = models.ForeignKey(
+        to=Difficulty,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='problems',
         verbose_name='난이도',
-        max_length=16,
-        choices=[
-            ('1', 'Lv.1'),
-            ('2', 'Lv.2'),
-            ('3', 'Lv.3'),
-        ]
     )
     categories = models.ManyToManyField(
         to=Category,

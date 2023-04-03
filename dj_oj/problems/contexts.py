@@ -2,6 +2,7 @@ from functools import cached_property
 
 from core.contexts import Context
 from django.urls import reverse
+from users.models import User
 
 
 def navigation_list_problem():
@@ -62,6 +63,7 @@ class ProblemListContext(Context):
         # contents
         'filter_form',
         'problems',
+        'user_score',
         'page_obj',
     )
 
@@ -74,3 +76,21 @@ class ProblemListContext(Context):
 
     def page_obj(self):
         return self.initial_ctx['page_obj']
+
+    @cached_property
+    def user_score(self):
+        '''
+        {
+            user: User,
+            passed_problems_count: int,
+            score: int,
+        }
+        '''
+        if not self.user.is_authenticated:
+            return {}
+        user = User.objects.with_score().get(id=self.user.id)
+        return {
+            'user': user,
+            'passed_problems_count': user.passed_problems.count(),
+            'score': user.score,
+        }
