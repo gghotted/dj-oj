@@ -1,5 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 
 
 def home_view(request):
-    return render(request, 'core/base_site.html')
+    return redirect('problems:list')
