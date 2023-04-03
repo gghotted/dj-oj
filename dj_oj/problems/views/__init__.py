@@ -43,7 +43,7 @@ class ProblemListView(
 ):
     template_name = 'problems/list.html'
     queryset = Problem.objects.all()
-    paginate_by = 1
+    paginate_by = 10
 
     permission_required = 'problems.view_problem'
 
