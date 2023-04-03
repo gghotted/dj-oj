@@ -2,6 +2,7 @@ from core.models import BaseModel
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.db.models import Sum
+from django.db.models.functions import Coalesce
 
 
 class UserManager(BaseUserManager):
@@ -20,7 +21,10 @@ class UserManager(BaseUserManager):
 
     def with_score(self):
         return self.annotate(
-            score=Sum('passed_problems__difficulty__score'),
+            score=Coalesce(
+                Sum('passed_problems__difficulty__score'),
+                0,
+            ),
         )
 
 
