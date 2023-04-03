@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_crontab',
     'rest_framework',
     'rules.apps.AutodiscoverRulesConfig',
     'crispy_forms',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'problems',
     'submissions',
     'judge',
+    'ranks',
 ]
 
 MIDDLEWARE = [
@@ -185,3 +187,15 @@ PAGINATION_SETTINGS = {
 
     'SHOW_FIRST_PAGE_WHEN_INVALID': True,
 }
+
+LOGS_DIR = BASE_DIR / 'logs/'
+
+
+RANK_UPDATE_CYCLE_MINUTE = 1
+CRONJOBS = [
+    (
+        '*/%d * * * *' % RANK_UPDATE_CYCLE_MINUTE,
+        'ranks.cron.update_rank',
+        '>> %s' % str(LOGS_DIR / 'cron.log 2>&1'),
+    ),
+]
