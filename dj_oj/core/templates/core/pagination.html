@@ -1,0 +1,51 @@
+{% if is_paginated %}
+    <nav>
+        <ul class="pagination{% if size %} pagination-{{ size }}{% endif %} justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{{ page_obj.previous_page_number.querystring }}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for page in page_obj.pages %}
+                {% if page %}
+                    {% if page == page_obj.number %}
+                        <li class="page-item active">
+                            <a class="page-link" href="?{{ page.querystring }}">{{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="page-link" href="?{{ page.querystring }}">{{ page }}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled mx-2">
+                        <span>...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{{ page_obj.next_page_number.querystring }}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

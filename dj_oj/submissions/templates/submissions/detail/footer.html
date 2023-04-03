@@ -1,5 +1,8 @@
 <div class="bg-dark px-3 py-2 d-flex justify-content-between border-top border-secondary">
     <div>
+        {% if request.GET.backable %}
+            <a class="btn btn-secondary me-5" href="javascript:window.location=document.referrer;">{{request.GET.backable}}</a>
+        {% endif %}
         {% if can_delete_submission %}
         <a
             class="btn btn-danger mx-2"

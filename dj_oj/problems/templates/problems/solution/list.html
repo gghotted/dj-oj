@@ -1,0 +1,70 @@
+{% extends 'core/base_site.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %} solutions {% endblock %}
+
+{% block header %}
+{% include 'core/navigation_header.html' %}
+{% endblock %}
+
+{% block wrapped_content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- 기본은 12 lg 이상일 때 9 => lg 이하는 12, lg 이상일 때는 9 -->
+        <!-- lg 이하: 순서 2, lg 이상: 순서 1 -->
+        <div class="col-12 col-lg-9 order-2 order-lg-1"> 
+            
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>날짜</th>
+                        <th>평균 쿼리 수</th>
+                        <th>코드 길이</th>
+                        <th>유저</th>
+                        <th>피드백</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for solution in solutions %}
+                    <tr role="button"
+                        onclick="window.location=this.dataset.href"
+                        data-href="{% url 'submissions:detail' solution.uuid %}?backable=뒤로가기"
+                        {% if not solution.is_public %}
+                        style="opacity: 0.2;"
+                        {% endif %}
+                    >
+                        <td>{{solution.id}}</td>
+                        <td>
+                            {{solution.created_at}}
+                            {% if not solution.is_public %}
+                            <span class="badge bg-danger">비공개 - 나만 보임</span>
+                            {% endif %}
+                        </td>
+                        <td>{{solution.judge.average_query_count | floatformat:1}}</td>
+                        <td>{{solution.total_contents_len}}</td>
+                        <td>{{solution.created_by}}</td>
+                        <td>
+                            <span class="badge bg-secondary">좋아요 0</span>
+                            <span class="badge bg-secondary">댓글 0</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            {% include 'core/pagination.html' %}
+
+        </div>
+        <div class="col-12 col-lg-3 order-1 order-lg-2">
+            <form method="get" id="id-filter-form">
+                {{filter_form | crispy }}
+                <div class="d-flex flex-row-reverse">
+                    <button type="submit" class="btn btn-primary">검색</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
