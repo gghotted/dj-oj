@@ -1,7 +1,7 @@
 <div class="bg-dark px-3 py-2 d-flex justify-content-between border-top border-secondary">
     <div>
-        {% if request.GET.backable %}
-            <a class="btn btn-secondary me-5" href="javascript:window.location=document.referrer;">{{request.GET.backable}}</a>
+        {% if request.GET.from == 'solutions' %}
+            <a class="btn btn-secondary me-5" href="javascript:window.location=document.referrer;">목록으로</a>
         {% endif %}
         {% if can_delete_submission %}
         <a
@@ -14,7 +14,7 @@
             삭제
         </a>
         {% endif %}
-        {% if can_view_another_solution %}
+        {% if can_view_another_solution and request.GET.from != 'solutions' %}
         <a class="btn btn-secondary mx-2" href="#">다른 사람의 풀이</a>
         {% endif %}
     </div>

@@ -30,7 +30,7 @@
                     {% for solution in solutions %}
                     <tr role="button"
                         onclick="window.location=this.dataset.href"
-                        data-href="{% url 'submissions:detail' solution.uuid %}?backable=뒤로가기"
+                        data-href="{% url 'submissions:detail' solution.uuid %}?from=solutions"
                         {% if not solution.is_public %}
                         style="opacity: 0.2;"
                         {% endif %}
