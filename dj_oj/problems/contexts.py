@@ -1,6 +1,7 @@
 from functools import cached_property
 
 from core.contexts import Context
+from django.conf import settings
 from django.urls import reverse
 from users.models import User
 
@@ -84,6 +85,7 @@ class ProblemListContext(Context):
             user: User,
             passed_problems_count: int,
             score: int,
+            rank: int,
         }
         '''
         if not self.user.is_authenticated:
@@ -92,5 +94,13 @@ class ProblemListContext(Context):
         return {
             'user': user,
             'passed_problems_count': user.passed_problems.count(),
-            'score': user.score,
+            'score': user.score, # live score
+            'rank': user.rank.rank, # saved rank
+            'rank_updated_at': user.rank.updated_at,
+            'rank_help_message': (
+                '랭크는 %d분마다 업데이트 됩니다 (%s 에 업데이트 되었습니다)' % (
+                    settings.RANK_UPDATE_CYCLE_MINUTE,
+                    user.rank.updated_at_visible,
+                )
+            ),
         }

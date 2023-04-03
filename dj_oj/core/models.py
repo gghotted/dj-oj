@@ -1,6 +1,7 @@
 import timeago
 from django.db import models
-from django.utils.timezone import now
+from django.utils.formats import localize
+from django.utils.timezone import localtime, now
 
 
 class BaseModel(models.Model):
@@ -19,8 +20,26 @@ class BaseModel(models.Model):
 
     @property
     def created_at_relative(self):
+        return self._get_relative_time('created_at')
+    
+    @property
+    def updated_at_relative(self):
+        return self._get_relative_time('updated_at')
+
+    def _get_relative_time(self, attr):
         return timeago.format(
-            self.created_at,
+            getattr(self, attr),
             now(),
-            'ko',
+            'ko'
         )
+
+    @property
+    def created_at_visible(self):
+        return self._get_visible_time('created_at')
+    
+    @property
+    def updated_at_visible(self):
+        return self._get_visible_time('updated_at')
+
+    def _get_visible_time(self, attr):
+        return localize(localtime(getattr(self, attr)))
