@@ -39,6 +39,11 @@ class Submission(BaseModel):
     total_contents_len = models.PositiveIntegerField(
         verbose_name='제출 파일의 총 길이',
     )
+    like_users = models.ManyToManyField(
+        to='users.User',
+        related_name='like_submissions',
+        verbose_name='좋아요한 유저들',
+    )
 
     @property
     def get_test_status_detail_display(self):

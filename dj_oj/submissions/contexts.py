@@ -105,6 +105,9 @@ class SubmissionDetailContext(Context):
         # header
         'navigation',
         'is_solved_problem',
+        'can_react_submission',
+        'like_users_count',
+        'is_liked_submission',
         'can_change_submission',
 
         # contents
@@ -136,6 +139,19 @@ class SubmissionDetailContext(Context):
     def is_solved_problem(self):
         return self.user.has_perm('problems.view_solution', self.problem)
 
+    @cached_property
+    def can_react_submission(self):
+        return self.user.has_perm('submissions.react_submission', self.submission)
+
+    @cached_property
+    def like_users_count(self):
+        return self.submission.like_users.count()
+
+    @cached_property
+    def is_liked_submission(self):
+        return self.submission.like_users.filter(id=self.user.id).exists()
+
+    @cached_property
     def can_change_submission(self):
         return self.user.has_perm('submissions.change_submission', self.submission)
 

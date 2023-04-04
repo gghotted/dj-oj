@@ -28,29 +28,41 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
-<!-- for request api -->
-<script src="{% static 'core/request_api.js' %}"></script>
 {% endblock %}
 
 {% block header %}
 <div class="bg-dark py-1 px-5 d-flex align-items-center justify-content-between">
     {% include 'core/navigation_header.html' %}
 
-    {% if can_change_submission %}
-    <div class="form-check form-switch">
-        <input
-            class="form-check-input"
-            type="checkbox"
-            {% if submission.is_public %}checked{% endif %}
-            style="cursor: pointer;"
-            role="requestAPI"
-            data-url="{% url 'submissions_api:detail' submission.uuid %}"
-            data-method="patch"
-            data-get-data="(e) => {return {is_public: e.checked}}"
-        >
-        <label class="form-check-label text-light" >공개</label>
+    <div class="d-flex">
+        {% if can_react_submission %}
+        <div class="mx-2">
+            <button class="dj-like-btn d-none"
+                    type="button"
+                    value="{{like_users_count}}"
+                    {% if is_liked_submission %}liked{% endif %}
+                    data-like-url="{% url 'submissions_api:like' submission.uuid %}"
+                    data-unlike-url="{% url 'submissions_api:unlike' submission.uuid %}"
+            >
+            </button>
+        </div>
+        {% endif %}
+        {% if can_change_submission %}
+        <div class="form-check form-switch mx-2">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                {% if submission.is_public %}checked{% endif %}
+                style="cursor: pointer;"
+                role="requestAPI"
+                data-url="{% url 'submissions_api:detail' submission.uuid %}"
+                data-method="patch"
+                data-get-data="(e) => {return {is_public: e.checked}}"
+            >
+            <label class="form-check-label text-light" >공개</label>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
 </div>
 
 {% endblock %}
