@@ -145,11 +145,11 @@ class SubmissionDetailContext(Context):
 
     @cached_property
     def like_users_count(self):
-        return self.submission.like_users.count()
+        return self.submission.like_users_count
 
     @cached_property
     def is_liked_submission(self):
-        return self.submission.like_users.filter(id=self.user.id).exists()
+        return self.submission.is_liked_by_user
 
     @cached_property
     def can_change_submission(self):

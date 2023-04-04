@@ -86,11 +86,16 @@ class SubmissionDetailView(
     template_name = 'submissions/detail/detail.html'
     slug_url_kwarg = 'submission_uuid'
     slug_field = 'uuid'
-
-    queryset = Submission.objects.all()
     
     permission_required = 'submissions.view_submission'
     object_level_permissions = True
+
+    def get_queryset(self):
+        qs = (
+            Submission.objects
+            .annotates('like_users_count', 'is_liked_by_user', user=self.request.user)
+        )
+        return qs
 
     def get_context_data(self, **kwargs):
         return SubmissionDetailContext(

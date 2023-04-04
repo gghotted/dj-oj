@@ -12,8 +12,7 @@ class ProblemManager(BaseManager):
         )
 
     def annotate_is_solved(self, qs=None, user=None):
-        if not user:
-            raise Exception('user cannot be None')
+        self.check_required_user(user)
         
         qs = qs or self
         return qs.annotate(is_solved=Exists(

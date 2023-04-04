@@ -18,6 +18,10 @@ class MultipleAnnotateMixin:
         
         return qs
 
+    def check_required_user(self, user):
+        if not user:
+            raise Exception('user cannot be None')
+
 
 class BaseManager(MultipleAnnotateMixin, models.Manager):
     pass
