@@ -72,14 +72,10 @@ class ProblemListView(
 
     def get_queryset(self):
         qs = (
-            Problem.objects.filter(is_tested=True)
-            .annotate(passed_users_count=Count('passed_users', distinct=True))
-            .annotate(is_solved=Exists(
-                User.objects.filter(
-                    id=self.request.user.id,
-                    passed_problems__id=OuterRef('id')
-                )
-            ))
+            Problem.objects.annotates(
+                'passed_users_count', 'is_solved', user=self.request.user
+            )
+            .filter(is_tested=True)
             .prefetch_related('categories')
             .order_by('-created_at') # annotate후 기본 order가 초기화됨
         )

@@ -3,6 +3,8 @@ from core.models import BaseModel
 from django.db import models
 from tinymce.models import HTMLField
 
+from problems import managers
+
 
 class DockerImage(BaseModel):
     tag = models.CharField(
@@ -108,6 +110,8 @@ class Problem(BaseModel):
         related_name='passed_problems',
         verbose_name='통과한 유저들',
     )
+
+    objects = managers.ProblemManager()
 
 
 class File(BaseModel):
