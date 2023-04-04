@@ -3,6 +3,8 @@ from django.db import models
 from django_extensions.db.fields import RandomCharField
 from problems.models import File
 
+from submissions import managers
+
 
 class Submission(BaseModel):
     uuid = RandomCharField(
@@ -44,6 +46,8 @@ class Submission(BaseModel):
         related_name='like_submissions',
         verbose_name='좋아요한 유저들',
     )
+
+    objects = managers.SubmissionManager()
 
     @property
     def get_test_status_detail_display(self):

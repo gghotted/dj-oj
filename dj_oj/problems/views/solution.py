@@ -56,13 +56,13 @@ class SolutionListView(
         return get_object_or_404(Problem, id=self.kwargs['problem_id'])
 
     def get_queryset(self):
-        qs = Submission.objects.filter(
-            problem=self.problem,
-            judge__results_status='success',
-        ).filter(
-            Q(is_public=True) |
-            Q(created_by=self.request.user)
-        ).order_by('-created_at')
+        qs = (
+            Submission.objects
+            .annotates('like_users_count')
+            .filter(problem=self.problem, judge__results_status='success')
+            .filter(Q(is_public=True) | Q(created_by=self.request.user))
+            .order_by('-created_at')
+        )
         self.filter = SolutionFilter(self.request.GET, queryset=qs)
         return self.filter.qs
 

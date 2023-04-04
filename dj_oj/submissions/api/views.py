@@ -28,7 +28,7 @@ class SubmissionDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class SubmissionReactAPIView(GenericAPIView):
-    permission_classes = [HasPerm('submissions:react_submission')]
+    permission_classes = [HasPerm('submissions.react_submission')]
     lookup_url_kwarg = 'submission_uuid'
     lookup_field = 'uuid'
 
