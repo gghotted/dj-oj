@@ -21,7 +21,7 @@ class SolutionFilter(django_filters.FilterSet):
     )
     o = django_filters.OrderingFilter(
         choices=(
-            # ('...', '인기 순'), 좋아요 순
+            ('-like_users_count', '좋아요 많은 순'),
             ('total_contents_len', '짧은 코드 순'),
             ('judge__average_query_count', '낮은 평균 쿼리 순'),
         ),
