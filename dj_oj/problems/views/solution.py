@@ -3,6 +3,7 @@ from functools import cached_property
 import django_filters
 from core.permissions import PermissionRequiredMixin
 from django.db.models.expressions import Q
+from django.forms import widgets
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from problems.contexts import SolutionListContext
@@ -13,25 +14,26 @@ from submissions.models import Submission
 
 class SolutionFilter(django_filters.FilterSet):
     user = django_filters.CharFilter(
+        widget=widgets.TextInput(attrs={'placeholder': '유저 이메일'}),
         field_name='created_by__email',
         lookup_expr='icontains',
-        label='유저',
+        label='',
     )
     o = django_filters.OrderingFilter(
         choices=(
             # ('...', '인기 순'), 좋아요 순
-            ('-created_at', '최신'),
-            ('total_contents_len', '짧은 코드'),
-            ('judge__average_query_count', '낮은 평균 쿼리 수'),
+            ('total_contents_len', '짧은 코드 순'),
+            ('judge__average_query_count', '낮은 평균 쿼리 순'),
         ),
-        label='정렬',
+        empty_label='최신 순',
+        label='',
     )
 
     class Meta:
         model = Submission
         fields = (
-            'user',
             'o',
+            'user',
         )
 
 
@@ -60,7 +62,7 @@ class SolutionListView(
         ).filter(
             Q(is_public=True) |
             Q(created_by=self.request.user)
-        )
+        ).order_by('-created_at')
         self.filter = SolutionFilter(self.request.GET, queryset=qs)
         return self.filter.qs
 
