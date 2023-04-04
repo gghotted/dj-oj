@@ -9,18 +9,12 @@ from ranks.models import Rank
 
 def update_rank():
     users = list(
-        User.objects.with_score().select_related('rank')
-        .annotate(
-            _rank=Window(
-                window.Rank(),
-                order_by=F('score').desc()
-            )
-        )
+        User.objects.annotates('score', 'rank_val').select_related('rank')
     )
 
     for user in users:
         rank_obk = user.rank
-        rank_obk.rank = user._rank
+        rank_obk.rank = user.rank_val
         rank_obk.score = user.score
 
     Rank.objects.bulk_update(

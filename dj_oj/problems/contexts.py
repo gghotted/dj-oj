@@ -90,7 +90,7 @@ class ProblemListContext(Context):
         '''
         if not self.user.is_authenticated:
             return {}
-        user = User.objects.with_score().get(id=self.user.id)
+        user = User.objects.annotates('score').get(id=self.user.id)
         return {
             'user': user,
             'passed_problems_count': user.passed_problems.count(),

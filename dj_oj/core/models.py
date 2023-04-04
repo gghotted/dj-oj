@@ -4,6 +4,25 @@ from django.utils.formats import localize
 from django.utils.timezone import localtime, now
 
 
+class MultipleAnnotateMixin:
+    def annotates(self, *names, qs=None, user=None) -> models.query.QuerySet:
+        '''
+        names 순서가 중요
+        '''
+        qs = qs or self.get_queryset()
+
+        for annotate_name in names:
+            method_name = 'annotate_' + annotate_name
+            method = getattr(self, method_name)
+            qs = method(qs=qs, user=user)
+        
+        return qs
+
+
+class BaseManager(MultipleAnnotateMixin, models.Manager):
+    pass
+
+
 class BaseModel(models.Model):
     created_at = models.DateTimeField(
         verbose_name='생성일',
@@ -13,6 +32,8 @@ class BaseModel(models.Model):
         verbose_name='수정일',
         auto_now=True,
     )
+
+    objects = BaseManager()
 
     class Meta:
         abstract = True
