@@ -30,6 +30,7 @@ class SolutionListContext(Context):
         
         # contents
         'filter_form',
+        'filtered_total_count',
         'solutions',
         'page_obj',
     )
@@ -52,6 +53,10 @@ class SolutionListContext(Context):
         return self.user.has_perm('problems.view_solution', self.problem)
 
     @cached_property
+    def filtered_total_count(self):
+        return self.page_obj().paginator.object_list.count()
+
+    @cached_property
     def solutions(self):
         return list(self.initial_ctx['submission_list'])
 
@@ -63,6 +68,7 @@ class ProblemListContext(Context):
     keys = (
         # contents
         'filter_form',
+        'filtered_total_count',
         'problems',
         'user_score',
         'page_obj',
@@ -74,6 +80,10 @@ class ProblemListContext(Context):
 
     def problems(self):
         return list(self.initial_ctx['problem_list'])
+
+    @cached_property
+    def filtered_total_count(self):
+        return self.page_obj().paginator.object_list.count()
 
     def page_obj(self):
         return self.initial_ctx['page_obj']
