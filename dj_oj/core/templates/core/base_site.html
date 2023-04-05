@@ -12,6 +12,7 @@
                 {{request.user}}님
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'users:change_profile' %}">프로필 변경</a></li>
                 <li><a class="dropdown-item" href="{% url 'users:change_password' %}">비밀번호 변경</a></li>
                 <li>
                     <hr class="dropdown-divider">

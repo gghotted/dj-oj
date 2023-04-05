@@ -1,3 +1,5 @@
+from copy import copy
+
 from braces.views import LoginRequiredMixin
 from django.conf import settings
 from django.contrib import messages
@@ -7,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView
 
 from users.forms import (LoginForm, PasswordChangeForm, PasswordCheckForm,
-                         UserCreationForm)
+                         UserCreationForm, UserProfileChangeForm)
 
 
 class SignupView(CreateView):
@@ -57,4 +59,19 @@ class PasswordChangeView(LoginRequiredMixin, FormView):
             messages.SUCCESS,
             '성공적으로 변경되었습니다',
         )
+        return super().form_valid(form)
+
+
+class UserProfileChangeView(LoginRequiredMixin, FormView):
+    template_name = 'users/change_profile.html'
+    form_class = UserProfileChangeForm
+    success_url = reverse_lazy('problems:list')
+
+    def get_form_kwargs(self):
+        ctx = super().get_form_kwargs()
+        ctx['instance'] = copy(self.request.user)
+        return ctx
+
+    def form_valid(self, form):
+        form.save()
         return super().form_valid(form)

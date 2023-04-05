@@ -49,6 +49,15 @@ class UserCreationForm(forms.ModelForm):
         return super().save(commit)
 
 
+class UserProfileChangeForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = (
+            'nickname',
+        )
+
+
 class PasswordChangeForm(UserCreationForm):
 
     class Meta:
