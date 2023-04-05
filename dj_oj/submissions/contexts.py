@@ -1,9 +1,8 @@
 from functools import cached_property
+from urllib.parse import urljoin, urlparse
 
 from core.contexts import Context
 from django.urls import reverse
-from django.utils.formats import localize
-from django.utils.timezone import localtime
 from problems.contexts import navigation_list_problem
 
 
@@ -118,6 +117,7 @@ class SubmissionDetailContext(Context):
         # footer
         'can_delete_submission',
         'can_view_solution',
+        'from_solutions_page', # solution 목록 페이지에서 왔는지 여부
         'can_view_submissions',
         'submissions',
         'can_view_problem',
@@ -167,6 +167,18 @@ class SubmissionDetailContext(Context):
 
     def can_view_solution(self):
         return self.is_solved_problem
+
+    def from_solutions_page(self):
+        solution_page = (
+            self.request._current_scheme_host +
+            reverse('problems:list_solution', args=[self.problem.id])
+        )
+        previouse_page = self.request.META.get('HTTP_REFERER')
+        previouse_page = urljoin(
+            previouse_page,
+            urlparse(previouse_page).path,
+        )
+        return previouse_page == solution_page
     
     def can_view_submissions(self):
         return bool(self.submissions)

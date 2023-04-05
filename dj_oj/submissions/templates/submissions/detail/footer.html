@@ -1,6 +1,6 @@
 <div class="bg-dark px-3 py-2 d-flex justify-content-between border-top border-secondary">
     <div>
-        {% if request.GET.from == 'solutions' %}
+        {% if from_solutions_page %}
             <a class="btn btn-secondary me-5" href="javascript:window.location=document.referrer;">목록으로</a>
         {% endif %}
         {% if can_delete_submission %}
@@ -17,7 +17,7 @@
             삭제
         </a>
         {% endif %}
-        {% if can_view_solution and request.GET.from != 'solutions' %}
+        {% if can_view_solution and not from_solutions_page %}
         <a class="btn btn-secondary mx-2" href="{% url 'problems:list_solution' submission.problem.id %}">모든 풀이</a>
         {% endif %}
     </div>
