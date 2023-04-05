@@ -68,24 +68,6 @@ class PasswordChangeForm(UserCreationForm):
         )
 
 
-class PasswordCheckForm(UserCreationForm):
-
-    class Meta:
-        model = User
-        fields = (
-            'password1',
-        )
-
-    def clean_password1(self):
-        password = super().clean_password1()
-        if not self.instance.check_password(password):
-            raise ValidationError('일치하지 않습니다')
-        return password
-
-    def save(self, commit=True):
-        raise Exception('save method를 지원하지 않습니다')
-
-
 class LoginForm(forms.Form):
 
     email = forms.EmailField(
