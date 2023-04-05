@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 from django.utils.formats import localize
 from django.utils.timezone import localtime
 from django.views.generic import CreateView, DetailView
+from judge.tasks import run_judge
 from problems.models import Problem
 
 from submissions.contexts import (SubmissionCreateContext,
@@ -66,6 +67,11 @@ class SubmissionCreateView(
             self.request,
             self.get_object(),
         ).to_dict()
+
+    def form_valid(self, form):
+        ret = super().form_valid(form)
+        run_judge.delay(submission_id=self.object.id)
+        return ret
 
     def form_invalid(self, form):
         messages.add_message(

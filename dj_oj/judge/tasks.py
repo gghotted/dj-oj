@@ -2,6 +2,7 @@ import importlib.machinery
 from time import time
 
 import sqlparse
+from celery import shared_task
 from docker.errors import ContainerError
 from submissions.models import Submission
 
@@ -75,6 +76,7 @@ def _run_judge(judge, run_func, input_files, volume_path):
         judge.save()
     
 
+@shared_task
 def run_judge(submission_id):
     submission_qs = Submission.objects.filter(id=submission_id)
     submission = submission_qs.filter(judge__isnull=True).get(id=submission_id)
