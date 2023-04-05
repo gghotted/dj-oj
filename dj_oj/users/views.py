@@ -1,5 +1,6 @@
 from braces.views import LoginRequiredMixin
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.views import RedirectURLMixin
 from django.urls import reverse_lazy
@@ -51,4 +52,9 @@ class PasswordChangeView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         form.save()
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            '성공적으로 변경되었습니다',
+        )
         return super().form_valid(form)
