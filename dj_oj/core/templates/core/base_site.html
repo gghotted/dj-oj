@@ -9,7 +9,7 @@
         <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                {{request.user.email}}님
+                {{request.user}}님
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'users:change_password' %}">비밀번호 변경</a></li>

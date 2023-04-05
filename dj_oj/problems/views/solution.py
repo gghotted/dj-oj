@@ -14,8 +14,8 @@ from submissions.models import Submission
 
 class SolutionFilter(django_filters.FilterSet):
     user = django_filters.CharFilter(
-        widget=widgets.TextInput(attrs={'placeholder': '유저 이메일'}),
-        field_name='created_by__email',
+        widget=widgets.TextInput(attrs={'placeholder': '유저'}),
+        field_name='created_by__nickname',
         lookup_expr='icontains',
         label='',
     )

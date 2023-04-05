@@ -24,6 +24,7 @@ class UserCreationForm(forms.ModelForm):
             'email',
             'password1',
             'password2',
+            'nickname',
         )
 
     def clean_password1(self):
