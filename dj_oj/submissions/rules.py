@@ -13,7 +13,12 @@ def is_owner(user, subm):
     return subm.created_by == user
 
 
+@rules.predicate
+def test_completed(user, subm):
+    return subm.test_status == 'completed'
+
+
 rules.add_perm('submissions.view_submission', pred_divide(rules.always_true, is_public | is_owner))
 rules.add_perm('submissions.change_submission', pred_divide(rules.is_authenticated, is_owner))
-rules.add_perm('submissions.delete_submission', pred_divide(rules.is_authenticated, is_owner))
+rules.add_perm('submissions.delete_submission', pred_divide(rules.is_authenticated, is_owner & test_completed))
 rules.add_perm('submissions.react_submission', pred_divide(rules.is_authenticated, is_public | is_owner))
