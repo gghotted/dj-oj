@@ -9,11 +9,22 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import json
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+SECRET_DIR = BASE_DIR / '.secrets'
+
+COMMON_SECRET_FILE = SECRET_DIR / 'common.json'
+COMMON_SECRET = json.loads(COMMON_SECRET_FILE.read_text())
+
+LOCAL_SECRET_FILE = SECRET_DIR / 'local.json'
+LOCAL_SECRET = json.loads(LOCAL_SECRET_FILE.read_text())
+
+PRODUCT_SECRET_FILE = SECRET_DIR / 'product.json'
+PRODUCT_SECRET = json.loads(PRODUCT_SECRET_FILE.read_text())
 
 
 # Quick-start development settings - unsuitable for production
