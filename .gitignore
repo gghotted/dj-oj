@@ -133,3 +133,6 @@ dmypy.json
 dj_oj/media
 
 **/.secrets
+
+tests/chromedriver
+tests/**/params.txt
