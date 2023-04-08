@@ -14,8 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import private_storage.urls
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,3 +33,12 @@ urlpatterns += [
     path('private-media/', include(private_storage.urls)),
     path('tinymce/', include('tinymce.urls')),
 ]
+
+handler404 = TemplateView.as_view(template_name='core/errors/404.html')
+handler500 = TemplateView.as_view(template_name='core/errors/500.html')
+
+if settings.DEBUG:
+    urlpatterns += [
+        path('test-404/', handler404),
+        path('test-500/', handler500),
+    ]
