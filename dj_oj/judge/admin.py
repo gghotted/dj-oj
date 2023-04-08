@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from judge.models import Judge
+
+
+@admin.register(Judge)
+class JudgeAdmin(admin.ModelAdmin):
+    list_display = [
+        'created_at',
+        'runtime',
+    ]
