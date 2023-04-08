@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   nginx:
     image: nginx:latest
@@ -22,10 +22,16 @@ services:
     command: bash -c "service cron start && cd dj_oj && ./entrypoint.sh"
     volumes:
       - ./dj_oj:/dj_oj
-      - /var/run/docker.sock:/var/run/docker.sock # local에서는 지우고
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - postgres
       - redis
+    environment:
+      - CELERY_CONCURRENCY=${CELERY_CONCURRENCY}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
   
   postgres:
     image: postgres:latest

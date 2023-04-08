@@ -5,5 +5,5 @@ echo "yes" | python manage.py collectstatic && \
 python manage.py crontab add && \
 python manage.py crontab show && \
 
-celery -A config worker -l debug --concurrency=2 &
+celery -A config worker -l debug --concurrency=$CELERY_CONCURRENCY &
 gunicorn --log-level=DEBUG --bind 0.0.0.0:8000 --timeout 1200 config.wsgi.product:application
