@@ -1,5 +1,6 @@
 from core.fields import TemporaryZipFileField
 from core.models import BaseModel
+from django.conf import settings
 from django.db import models
 from tinymce.models import HTMLField
 
@@ -16,6 +17,7 @@ class DockerImage(BaseModel):
         verbose_name='zip 파일',
         upload_to='media/docker_images/',
         help_text='루트 폴더에 Dockerfile을 포함해야합니다',
+        work_dir=settings.TEMP_DIR,
     )
 
     def __str__(self):
@@ -88,6 +90,7 @@ class Problem(BaseModel):
     test_file = TemporaryZipFileField(
         verbose_name='zip 파일',
         upload_to='media/tests/',
+        work_dir=settings.TEMP_DIR,
     )
     is_tested = models.BooleanField(
         verbose_name='테스트 여부',

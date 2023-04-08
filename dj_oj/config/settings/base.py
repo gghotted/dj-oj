@@ -214,3 +214,5 @@ CRONJOBS = [
         '>> %s' % str(LOGS_DIR / 'cron.log 2>&1'),
     ),
 ]
+
+TEMP_DIR = BASE_DIR / 'temp'

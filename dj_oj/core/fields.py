@@ -11,11 +11,12 @@ from private_storage.fields import PrivateFileField
 
 class TemporaryUnZip:
 
-    def __init__(self, zip_file_path):
+    def __init__(self, zip_file_path, work_dir=None):
         self.zip_file_path = zip_file_path
+        self.work_dir = work_dir
 
     def __enter__(self):
-        self.dir = TemporaryDirectory()
+        self.dir = TemporaryDirectory(dir=self.work_dir)
         zip_file = ZipFile(self.zip_file_path, 'r')
         zip_file.extractall(self.dir.name)
         return Path(self.dir.name)
@@ -28,7 +29,7 @@ class TemporaryZipFileDescriptor(FileDescriptor):
 
     def __get__(self, instance, cls=None):
         file = super().__get__(instance, cls)
-        file.unzip = partial(TemporaryUnZip, file.path)
+        file.unzip = partial(TemporaryUnZip, file.path, work_dir=self.field.work_dir)
         return file
 
 
@@ -37,4 +38,5 @@ class TemporaryZipFileField(PrivateFileField):
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('validators', [FileExtensionValidator(['zip'])])
+        self.work_dir = kwargs.pop('work_dir', None)
         super().__init__(*args, **kwargs)

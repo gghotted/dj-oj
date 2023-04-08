@@ -3,6 +3,7 @@ from time import time
 
 import sqlparse
 from celery import shared_task
+from core.utils import path_for_host
 from docker.errors import ContainerError
 from submissions.models import Submission
 
@@ -47,7 +48,11 @@ def _run_judge(judge, run_func, input_files, volume_path):
 
     result = None
     try:
-        result = run_func(input_files, volume_path)
+        result = run_func(
+            input_files,
+            volume_path,
+            volume_for_host=path_for_host(volume_path)
+        )
         judge.test_passed_count = sum(
             int(test['passed'])
             for test in result
