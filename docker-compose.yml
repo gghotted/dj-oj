@@ -31,7 +31,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.5"
+          cpus: "0.35"
   
   postgres:
     image: postgres:latest
@@ -47,6 +47,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.15"
   
   redis:
     image: redis:latest
