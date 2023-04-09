@@ -9,7 +9,9 @@ from ranks.models import Rank
 
 def update_rank():
     users = list(
-        User.objects.annotates('score', 'rank_val').select_related('rank')
+        User.objects.annotates('score', 'rank_val')
+        .filter(is_superuser=False)
+        .select_related('rank')
     )
 
     for user in users:
