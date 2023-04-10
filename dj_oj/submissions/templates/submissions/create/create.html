@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'core/dark_scrollbar.css' %}">
+<link rel="stylesheet" href="{% static 'core/dark_scrollbar.css' %}?v={{version}}">
 <style>
     .CodeMirror {
         height: 100% !important;
@@ -17,14 +17,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.js"></script>
 <script src="https://codemirror.net/5/mode/python/python.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{% static 'submissions/editor.js' %}"></script>
+<script src="{% static 'submissions/editor.js' %}?v={{version}}"></script>
 
 <!-- for problem`s description -->
 <script src="{% static 'tinymce/tinymce.min.js' %}"></script>
-<script src="{% static 'problems/description.js' %}"></script>
+<script src="{% static 'problems/description.js' %}?v={{version}}"></script>
 
 <!-- for submission -->
-<script src="{% static 'submissions/submission.js' %}"></script>
+<script src="{% static 'submissions/submission.js' %}?v={{version}}"></script>
 
 <!-- for datatable -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
