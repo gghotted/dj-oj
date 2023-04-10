@@ -39,7 +39,9 @@
                         >
                             <td>{{solution.id}}</td>
                             <td>
-                                {{solution.created_at_relative}}
+                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="{{solution.created_at_visible}}">
+                                    {{solution.created_at_relative}}
+                                </a>
                                 {% if not solution.is_public %}
                                 <span class="badge bg-danger">비공개 - 나만 보임</span>
                                 {% endif %}
