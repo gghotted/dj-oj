@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'tinymce',
     'django_filters',
     'pure_pagination',
+    'django_ratelimit',
     
     'core',
     'users',
@@ -77,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.RateLimitExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -216,3 +218,10 @@ CRONJOBS = [
 ]
 
 TEMP_DIR = BASE_DIR / 'temp'
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+}

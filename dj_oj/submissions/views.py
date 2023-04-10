@@ -1,17 +1,13 @@
 from functools import cache
 
-from braces.views import LoginRequiredMixin
-from core.contexts import navigation
 from core.permissions import PermissionRequiredMixin
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.utils.formats import localize
-from django.utils.timezone import localtime
 from django.views.generic import CreateView, DetailView
+from django_ratelimit.decorators import ratelimit
 from judge.tasks import run_judge
 from problems.models import Problem
 
@@ -21,7 +17,20 @@ from submissions.forms import SubmissionCreateForm
 from submissions.models import Submission
 
 
-@method_decorator(login_required, 'post')
+def get_limit_rate_submission_create(group, request):
+    if request.user.is_superuser:
+        request.user._ratelimit_exception_context = {
+            'message': '분당 100개의 제출 제한이 있습니다'
+        }
+        return '100/m'
+    else:
+        request.user._ratelimit_exception_context = {
+            'message': '분당 5개의 제출 제한이 있습니다'
+        }
+        return '5/m'
+
+
+@method_decorator(ratelimit(key='user', rate=get_limit_rate_submission_create), 'post')
 class SubmissionCreateView(
     PermissionRequiredMixin,
     CreateView
