@@ -112,6 +112,7 @@ class Problem(BaseModel):
         to='users.User',
         related_name='passed_problems',
         verbose_name='통과한 유저들',
+        blank=True,
     )
 
     objects = managers.ProblemManager()
