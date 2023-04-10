@@ -191,3 +191,38 @@ class SubmissionDetailContext(Context):
     
     def can_view_problem(self):
         return self.user.has_perm('problems.view_problem', self.problem)
+
+
+class SubmissionListContext(Context):
+    keys = (
+        # contents
+        'filter_form',
+        'filtered_total_count',
+        'submissions',
+        'page_obj',
+    )
+
+    def __init__(self, initial_ctx, request, filter_form):
+        super().__init__(initial_ctx, request)
+        self.filter_form = filter_form
+
+    @cached_property
+    def submissions(self):
+        submissions = list(self.initial_ctx['submission_list'])
+        for submission in submissions:
+            submission.can_view = self.user.has_perm(
+                'submissions.view_submission_from_list',
+                submission,
+            )
+            submission.problem.can_view = self.user.has_perm(
+                'problems.view_problem',
+                submission.problem,
+            )
+        return submissions
+    
+    @cached_property
+    def filtered_total_count(self):
+        return self.page_obj().paginator.object_list.count()
+    
+    def page_obj(self):
+        return self.initial_ctx['page_obj']

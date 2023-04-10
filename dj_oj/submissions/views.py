@@ -1,18 +1,22 @@
 from functools import cache
 
+import django_filters
 from core.permissions import PermissionRequiredMixin
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.forms import widgets
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView
 from django_ratelimit.decorators import ratelimit
 from judge.tasks import run_judge
 from problems.models import Problem
+from pure_pagination.mixins import PaginationMixin
 
 from submissions.contexts import (SubmissionCreateContext,
-                                  SubmissionDetailContext)
+                                  SubmissionDetailContext,
+                                  SubmissionListContext)
 from submissions.forms import SubmissionCreateForm
 from submissions.models import Submission
 
@@ -117,4 +121,47 @@ class SubmissionDetailView(
             super().get_context_data(**kwargs),
             self.request,
             self.get_object(),
+        ).to_dict()
+
+
+class SubmissionFilter(django_filters.FilterSet):
+    user = django_filters.CharFilter(
+        widget=widgets.TextInput(attrs={'placeholder': '유저'}),
+        field_name='created_by__nickname',
+        lookup_expr='icontains',
+        label='유저',
+    )
+
+    class Meta:
+        model = Submission
+        fields = (
+            'user',
+        )
+
+
+class SubmissionListView(
+    PermissionRequiredMixin,
+    PaginationMixin,
+    ListView
+):
+    template_name = 'submissions/list.html'
+    paginate_by = 10
+
+    permission_required = 'submissions.view_submission_from_list'
+
+    def get_queryset(self):
+        qs = Submission.objects.filter(
+            created_by__is_superuser=False,
+        )
+        self.filter = SubmissionFilter(
+            self.request.GET,
+            queryset=qs,
+        )
+        return self.filter.qs
+
+    def get_context_data(self, **kwargs):
+        return SubmissionListContext(
+            super().get_context_data(**kwargs),
+            self.request,
+            self.filter.form,
         ).to_dict()

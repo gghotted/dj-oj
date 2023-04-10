@@ -23,7 +23,7 @@
                         {% for problem in problems %}
                         <tr role="button" onclick="window.location=this.dataset.href"
                             data-href="{% url 'problems:create_submission' problem.id %}">
-                            <td>{{problem.id}}</td>
+                            <td>{{problem.number}}</td>
                             <td>
                                 {{problem.title}}
                                 {% if problem.is_solved %}
