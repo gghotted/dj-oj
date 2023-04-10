@@ -44,7 +44,6 @@ class ProblemAdmin(admin.ModelAdmin):
         if obj:
             return [
                 'created_by',
-                'is_tested',
                 'base_docker_image',
                 'number',
                 'volume_tree',
