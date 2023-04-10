@@ -17,6 +17,9 @@ class SubmissionManager(BaseManager):
         qs = qs or self
         return qs.annotate(
             is_liked_by_user=Exists(
-                User.objects.filter(like_submissions__id=OuterRef('id'))
+                User.objects.filter(
+                    id=user.id,
+                    like_submissions__id=OuterRef('id')
+                )
             )
         )
