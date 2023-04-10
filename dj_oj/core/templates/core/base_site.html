@@ -2,8 +2,13 @@
 
 {% block header %}
 <nav class="navbar navbar-light bg-light border-bottom border-3">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'problems:list' %}">DJ-OJ</a>
+    <div class="container d-flex justify-content-between">
+        <div class="nav-item d-flex">
+            <a class="navbar-brand" href="{% url 'problems:list' %}">DJ-OJ</a>
+            <a class="nav-link text-secondary" href="{% url 'problems:list' %}">
+                문제 목록
+            </a>
+        </div>
 
         {% if request.user.is_authenticated %}
         <div class="nav-item dropdown">
