@@ -186,10 +186,10 @@ TINYMCE_DEFAULT_CONFIG = {
     "content_css": "dark",
     "height": 500,
     "menubar": False,
-    "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,"
+    "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,hr,"
     "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
     "code,help,wordcount,codesample,preview",
-    "toolbar": "undo redo | formatselect | "
+    "toolbar": "undo redo | formatselect | hr |"
     "bold italic backcolor | alignleft aligncenter "
     "alignright alignjustify | bullist numlist outdent indent | "
     "removeformat | fontselect | code | codesample | preview | help",
