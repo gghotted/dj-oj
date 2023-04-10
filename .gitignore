@@ -133,6 +133,7 @@ dmypy.json
 dj_oj/media
 dj_oj/staticfiles
 data
+redis_data
 
 **/.secrets
 
