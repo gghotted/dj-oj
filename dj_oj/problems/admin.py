@@ -3,6 +3,7 @@ import os
 
 import docker
 from django.contrib import admin
+from django.db.models import Count
 
 from problems.models import (Category, Difficulty, DockerImage, EditableFile,
                              Problem)

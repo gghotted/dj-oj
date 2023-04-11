@@ -32,3 +32,4 @@ rules.add_perm('problems.chage_problem', rules.always_false)
 rules.add_perm('problems.delete_problem', rules.always_false)
 rules.add_perm('problems.add_submission', pred_divide(rules.is_authenticated, is_tested))
 rules.add_perm('problems.view_solution', pred_divide(rules.is_authenticated, is_passed))
+rules.add_perm('problems.view_problem_list_for_admin', rules.is_superuser),

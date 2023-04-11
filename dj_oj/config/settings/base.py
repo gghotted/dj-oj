@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     'django_filters',
     'pure_pagination',
     'django_ratelimit',
+    'categories',
+    'categories.editor',
     
     'core',
     'users',

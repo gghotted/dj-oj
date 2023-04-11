@@ -114,3 +114,27 @@ class ProblemListContext(Context):
                 )
             ),
         }
+
+
+class ProblemListForAdminContext(Context):
+    keys = (
+        # contents
+        'filtered_total_count',
+        'problems',
+        'categories',
+        'page_obj',
+    )
+
+    def __init__(self, initial_ctx, request, categories):
+        super().__init__(initial_ctx, request)
+        self.categories = categories
+
+    def problems(self):
+        return list(self.initial_ctx['problem_list'])
+
+    @cached_property
+    def filtered_total_count(self):
+        return self.page_obj().paginator.object_list.count()
+
+    def page_obj(self):
+        return self.initial_ctx['page_obj']

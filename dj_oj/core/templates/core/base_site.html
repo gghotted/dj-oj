@@ -8,6 +8,11 @@
             <a class="nav-link text-secondary" href="{% url 'problems:list' %}">
                 문제 목록
             </a>
+            {% if request.user.is_superuser %}
+            <a class="nav-link text-secondary" href="{% url 'problems:list_for_admin' %}">
+                문제 목록(admin)
+            </a>
+            {% endif %}
             <a class="nav-link text-secondary" href="{% url 'submissions:list' %}">
                 모든 제출
             </a>

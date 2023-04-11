@@ -114,6 +114,12 @@ class Problem(BaseModel):
         verbose_name='통과한 유저들',
         blank=True,
     )
+    skil_category = models.ManyToManyField(
+        to='categories.Category',
+        related_name='problems',
+        verbose_name='스킬 카테고리',
+        blank=True,
+    )
 
     objects = managers.ProblemManager()
 
