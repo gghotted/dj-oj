@@ -20,3 +20,5 @@ CACHES['cache-for-ratelimiting'] = {
     'LOCATION': 'redis://%s:6379/0' % PRODUCT_SECRET['CELERY_BROKER_URL'],
 }
 RATELIMIT_USE_CACHE = 'cache-for-ratelimiting'
+
+VERSION_HASH = os.environ['VERSION_HASH']

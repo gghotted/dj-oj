@@ -16,4 +16,6 @@ CACHES['cache-for-ratelimiting'] = {
     'LOCATION': 'redis://%s:6379/0' % LOCAL_SECRET['CELERY_BROKER_URL'],
 }
 RATELIMIT_USE_CACHE = 'cache-for-ratelimiting'
-# RATELIMIT_ENABLE = False
+RATELIMIT_ENABLE = False
+
+VERSION_HASH = os.popen('git rev-parse --short HEAD').read().strip()
