@@ -31,7 +31,7 @@ services:
       - redis
     environment:
       - CELERY_CONCURRENCY=${CELERY_CONCURRENCY}
-      - VERSION_HASH=$(git rev-parse --short HEAD)
+      - VERSION_HASH=${VERSION_HASH}
     deploy:
       resources:
         limits:
