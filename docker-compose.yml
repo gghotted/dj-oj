@@ -10,6 +10,7 @@ services:
       - SERVER_NAME=${NGINX_SERVER_NAME}
     volumes:
       - ./nginx:/etc/nginx/conf.d/
+      - /etc/letsencrypt/live/djoj.net:/ssl
       - ./dj_oj/staticfiles:/staticfiles
     depends_on:
       - web
