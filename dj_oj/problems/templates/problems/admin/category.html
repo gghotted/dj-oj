@@ -1,6 +1,8 @@
 {% if category %}
-<a href="{% url 'problems:list_for_admin' %}?category={{category.id}}">
-    {{category.name}} ({{category.problem_count}})
-</a>
-{% include 'problems/admin/categories.html' with categories=category.children.all %}
+<li>
+    <a href="{% url 'problems:list_for_admin' %}?category={{category.id}}">
+        {{category.name}} ({{category.problem_count}})
+    </a>
+    {% include 'problems/admin/categories.html' with categories=category.children.all %}
+</li>
 {% endif %}
