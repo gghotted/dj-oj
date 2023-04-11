@@ -231,3 +231,5 @@ CACHES = {
 }
 
 VERSION_HASH = os.popen('git rev-parse --short HEAD').read().strip()
+
+CSRF_TRUSTED_ORIGINS = ['https://djoj.net', 'https://www.djoj.net']
