@@ -5,13 +5,15 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     environment:
       - NGINX_ENVSUBST_TEMPLATE_SUFFIX=".conf"
       - SERVER_NAME=${NGINX_SERVER_NAME}
     volumes:
       - ./nginx:/etc/nginx/conf.d/
-      - /etc/letsencrypt/live/djoj.net:/ssl
+      - /etc/letsencrypt/archive/djoj.net:/ssl
       - ./dj_oj/staticfiles:/staticfiles
+      - ./nginxlog:/var/log/nginx
     depends_on:
       - web
   
