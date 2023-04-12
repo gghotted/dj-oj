@@ -42,10 +42,11 @@ class ProblemFilter(django_filters.FilterSet):
     )
     o = django_filters.OrderingFilter(
         choices=(
+            ('-created_at', '최신 순'),
             ('-passed_users_count', '푼 사람 많은 순'),
             ('passed_users_count', '푼 사람 적은 순'),
         ),
-        empty_label='최신 순',
+        empty_label='쉬운 순',
         label=''
     )
 
@@ -77,7 +78,7 @@ class ProblemListView(
             )
             .filter(is_tested=True)
             .prefetch_related('categories')
-            .order_by('-created_at') # annotate후 기본 order가 초기화됨
+            .order_by('difficulty__score') # 기본 order
         )
         self.filter = ProblemFilter(
             self.request.GET,
