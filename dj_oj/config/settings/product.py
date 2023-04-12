@@ -21,4 +21,4 @@ CACHES['cache-for-ratelimiting'] = {
 }
 RATELIMIT_USE_CACHE = 'cache-for-ratelimiting'
 
-VERSION_HASH = os.environ['VERSION_HASH']
+VERSION_HASH = os.environ.get('VERSION_HASH')
