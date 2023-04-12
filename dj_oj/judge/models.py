@@ -80,6 +80,11 @@ class TestResult(BaseModel):
         }
     ]
     '''
+    status_reason = models.CharField(
+        verbose_name='이유',
+        max_length=255,
+        blank=True,
+    )
     queries = models.JSONField(
         verbose_name='실행 쿼리',
         blank=True,

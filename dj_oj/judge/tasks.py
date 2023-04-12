@@ -36,6 +36,7 @@ def save_test_result(judge, result_list):
             number=result['number'],
             runtime=result['time'],
             status='success' if result['passed'] else 'fail',
+            status_reason=result.get('fail_reason', ''),
             queries=pretty_sql(result['queries']),
             query_count=len(result['queries']),
         )
